@@ -1,0 +1,15 @@
+{
+  "id": "/gitapath/",
+  "name": "GitaPath — Bhagavad-gītā",
+  "short_name": "GitaPath",
+  "description": "An offline Bhagavad-gita reader with verse cards, notes, favourites and reading progress.",
+  "start_url": "/gitapath/",
+  "scope": "/gitapath/",
+  "display": "standalone",
+  "background_color": "#f7f5ef",
+  "theme_color": "#182c27",
+  "icons": [
+    {"src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable"},
+    {"src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}
+  ]
+}
