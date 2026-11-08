@@ -1,18 +1,10 @@
-GitaPath – Telugu translation continuation and verse controls (v18)
+GitaPath Telugu translation update — v19
 
-This update continues the Telugu translation quality revision with a fresh Telugu rendering for Bhagavad-gītā 15.1–15.20 (20 entries). These translations are based on the English source text embedded in this edition and preserve key Sanskrit philosophical terms where appropriate. They are machine-assisted study translations and should be reviewed by a fluent Telugu reader/scholar before publication as an authoritative translation.
+This package continues the Telugu translation work with Bhagavad-gita 16.1–16.24.
+Chapter 15 ends at verse 15.20; chapter 16 begins at 16.1. Grouped source passages (16.1–3, 16.11–12, 16.13–15) intentionally share the same translation.
 
-Also retained from v17:
-- Cleaned Sanskrit and IAST transliteration for verses 14.1 and 18.2, removing OCR-corrupted appended text.
-- Visible Favourite / Remove favourite control beneath each verse card.
-- Individual verse read/unread, chapter unread, and all-chapters unread controls.
-- Telugu-script transliteration converter.
+Included from earlier package: Sanskrit corrections for 14.1 and 18.2; visible verse favourite controls; individual verse read/unread; chapter unread; all-chapters unread; Telugu-script transliteration converter.
 
-Coverage status:
-- Telugu translation map: 650 of 700 source records.
-- This update newly revises 20 entries: 15.1–15.20.
-- Telugu entries 15.21–18.28 remain from the previous machine-generated batch and still require quality review/revision.
-- Final 50 source records, 18.29–18.78, remain untranslated in Telugu.
-- Sanskrit corpus requires independent scholarly verification beyond the two corrected fields.
+Translation status: Telugu entries through 16.24 are included in the current pack. Remaining later verses still need translation and review. Machine-assisted Telugu draft; fluent and scholarly review is recommended.
 
-Install: replace index.html and sw.js in the GitHub Pages repository root, commit to main, open the live site once, then reopen the installed PWA.
+Install: replace index.html and sw.js in the GitHub Pages repository root, commit to main, open the updated site once, then close and reopen the installed PWA.
