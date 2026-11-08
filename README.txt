@@ -1,9 +1,7 @@
-GitaPath — Telugu and Hindi translation batch 1
+GitaPath — Telugu & Hindi Translation Batch 2
 
-This update includes the persistent 49-language selector and offline language-selection foundation, plus machine-generated draft translations for Bhagavad-gita 1.1–1.10 in Hindi and Telugu (20 verse-language entries). The original English translation remains available and is shown as a fallback for verses not yet translated.
+Includes draft translations for Bhagavad-gita 1.11–1.20 in Telugu and Hindi, in addition to batch 1 (1.1–1.10). Total: 20 translated verse entries per language. Some verses 1.16–1.18 repeat the combined passage as printed in the source edition.
 
-The Sanskrit source text is unchanged. Transliteration remains in the existing Roman/IAST form in this batch; conversion into Telugu and Devanagari scripts is a separate next step.
+Machine-generated draft translations; review and refine before scholarly or publication use. All other verses fall back to the original English translation. Offline cache version: v5.
 
-Install: replace the root index.html and sw.js in the GitHub Pages repository with these files, commit, and push. Open the site online once to refresh the offline cache.
-
-Translation status is intentionally disclosed in the app. These are machine-generated study drafts and should be reviewed by fluent readers before being treated as authoritative.
+Installation: replace the repository root index.html and sw.js with these files and deploy.
