@@ -1,11 +1,13 @@
-GitaPath — Telugu Translation Batch 5
+GitaPath — Telugu Translation Batch 6
 
-This package adds 50 Telugu verse translations: Bhagavad-gītā 2.56–2.72 and 3.1–3.33. It continues the previous 100 Telugu verse records, bringing the total to 150 of 700 records.
+This package continues the previous GitaPath build and adds 100 Telugu draft translations for Bhagavad-gita records 3.34 through 6.19 (inclusive as listed in the app source; 100 verse records). Existing translations and the language-selector/random-wisdom fixes are preserved.
 
-Included: index.html and sw.js. This package carries forward the language-selector freeze fix and random-wisdom startup fix. Sanskrit source text is unchanged. Telugu transliteration is handled by the app's existing transliteration feature.
+Telugu verse coverage: 250 of 700 records (150 previous + 100 in this batch). English remains the default language. Sanskrit source text is unchanged. Personal notes are not modified.
 
-Deploy: Extract this ZIP; replace index.html and sw.js in the root of the GitHub Pages repository; commit and push to main; open the site online in Chrome, allow it to update, then close and reopen the installed PWA. If the old build remains, clear the site's cached data in Chrome and reopen.
+Installation:
+1. Extract this ZIP.
+2. Replace index.html and sw.js in the root of your GitHub Pages repository.
+3. Commit and push to the main branch.
+4. Open the app online once, then close and reopen the installed PWA. If old content remains, clear the site's cached data in Chrome and reload.
 
-Translation status: Telugu translations are machine-generated drafts and have not received scholarly review. Please review theological terminology and wording before publication. Remaining untranslated verses and interface strings continue to use the existing fallback behaviour.
-
-Validation: 50 new unique verse IDs confirmed; JavaScript syntax and ZIP integrity should be checked before release. No live Android-device test has been performed.
+Translation notice: These are machine-generated Telugu drafts based on the English source text in the app. They have not been independently reviewed by a Sanskrit/Telugu scholar. Please review terminology, philosophical nuance, and verse accuracy before treating them as authoritative. This package has been syntax/structure checked, but has not been tested on your Android device or deployed to GitHub.
