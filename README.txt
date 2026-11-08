@@ -1,16 +1,16 @@
-GitaPath — Language Selector Freeze + Random Wisdom Fix
+GitaPath — Telugu Translation Batch 4
 
-Fixes
-1. Language selector freeze: the localization MutationObserver previously rewrote already-translated text nodes, triggering itself repeatedly. The renderer now writes only when text actually changes.
-2. Random translated verse: the hero now prefers Krishna-spoken verses that have an actual translation in the selected language. Telugu Batch 1 includes Krishna-spoken verses 2.2 and 2.3, so these are used for the Telugu hero until later batches add more.
-3. Initial display: a random wisdom verse is rendered immediately at startup, not only after the visibility observer callback.
-4. Offline cache: service-worker cache version bumped to v8.
+This package continues the existing Telugu language pack with 50 additional verse records: Bhagavad-gītā 2.6–2.55. It includes the language-selector freeze fix and random-wisdom startup fix from the latest hotfix.
 
-Install
-- Back up your current repository files.
-- Extract this ZIP and replace repository-root index.html and sw.js.
-- Commit and push to the main branch.
-- Open the site online once, wait for the cache update, then close and reopen the installed app.
-- If the old version remains, clear the site's cached data in Chrome and reopen.
+Included files: index.html, sw.js
 
-Telugu verse translations remain machine-generated drafts and should be reviewed by a fluent Telugu/Sanskrit reviewer. This hotfix fixes the freeze and hero display; it does not add more translated verses.
+Deployment:
+1. Extract this ZIP.
+2. Replace index.html and sw.js in the root of the GitHub Pages repository.
+3. Commit and push to the main branch.
+4. Open the website in Chrome while online, wait for the update, then close and reopen the installed PWA.
+5. If the old version remains, clear the site's cached data in Chrome and reopen it.
+
+Translation status: Telugu verse translations now cover 100 of 700 verse records (50 previous + 50 in this batch). Telugu interface labels remain available with English fallback for untranslated strings. Sanskrit is unchanged. Transliteration is rendered by the app's existing Telugu transliteration function.
+
+Important: These are machine-generated draft translations, not a scholarly reviewed edition. Please have the wording and theological terminology reviewed before publication. The app has been syntax-checked and package-checked; it has not been tested on the user's Android device.
