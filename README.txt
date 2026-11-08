@@ -1,14 +1,18 @@
-GitaPath – Telugu quality and verse controls update (v17)
+GitaPath – Telugu translation continuation and verse controls (v18)
 
-Included:
-- Corrected clean Devanagari Sanskrit and IAST transliteration for Bhagavad-gītā 14.1 and 18.2. The previous fields contained OCR-converted English commentary appended to the Sanskrit/transliteration.
-- Added a visible Favourite / Remove favourite control beneath every verse card. It updates the Saved/Favourites list and keeps the existing device-stored favourite IDs.
-- Retained individual verse read/unread, chapter unread, and all-chapters unread controls.
-- Retained the Telugu-script transliteration converter and existing Telugu translation data.
+This update continues the Telugu translation quality revision with a fresh Telugu rendering for Bhagavad-gītā 15.1–15.20 (20 entries). These translations are based on the English source text embedded in this edition and preserve key Sanskrit philosophical terms where appropriate. They are machine-assisted study translations and should be reviewed by a fluent Telugu reader/scholar before publication as an authoritative translation.
 
-Translation status:
-- Telugu translation map contains 650 of the 700 source records.
-- The post-14.27 Telugu entries (15.1–18.28) are present, but this package does not claim that all those translations have been fully scholar-reviewed. The remaining Telugu records 18.29–18.78 (50 records) are not yet translated.
-- Sanskrit in 14.1 and 18.2 has been cleaned; the full Sanskrit corpus still needs independent scholarly verification.
+Also retained from v17:
+- Cleaned Sanskrit and IAST transliteration for verses 14.1 and 18.2, removing OCR-corrupted appended text.
+- Visible Favourite / Remove favourite control beneath each verse card.
+- Individual verse read/unread, chapter unread, and all-chapters unread controls.
+- Telugu-script transliteration converter.
+
+Coverage status:
+- Telugu translation map: 650 of 700 source records.
+- This update newly revises 20 entries: 15.1–15.20.
+- Telugu entries 15.21–18.28 remain from the previous machine-generated batch and still require quality review/revision.
+- Final 50 source records, 18.29–18.78, remain untranslated in Telugu.
+- Sanskrit corpus requires independent scholarly verification beyond the two corrected fields.
 
 Install: replace index.html and sw.js in the GitHub Pages repository root, commit to main, open the live site once, then reopen the installed PWA.
