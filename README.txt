@@ -1,11 +1,16 @@
-GitaPath Telugu Translation — Batch 10
+GitaPath Telugu Translation — Batch 10 (Corrected)
 
-Adds 100 Telugu translations to the existing app-wide Telugu language pack.
-Coverage after this batch: 650 of 700 verse records.
-New verse IDs: 15.1 through 18.28 (100 missing records in source order).
+This corrected replacement package preserves all 650 Telugu translation entries and the existing app features.
 
-The package includes index.html, sw.js, and this README. It preserves the existing app and earlier language/localization fixes.
+Corrections made after review:
+- Rewrote Telugu entry 18.2 to translate the full source commentary, including the omitted sentence identifying a person in the sannyasa stage as a sannyasi, and the duties of all four ashramas.
+- Corrected the rendering of “sincerity” in 16.1 from a less precise “simplicity” term to “నిష్కపటత్వం”.
+- Bumped the service-worker cache to v15 so devices can fetch the corrected app files rather than retain the previous cached version.
 
-Translations are machine-generated Telugu drafts and should be reviewed by a fluent Telugu reader and a Bhagavad-gita subject expert. This package has been structurally validated; it has not been tested on a physical Android device and has not been deployed to GitHub Pages.
+Note: the source commentary for 18.2 literally describes tyaga as renunciation of all activities. This translation follows that source wording; the subsequent Gita verses explain renunciation in more detail.
 
-Install: replace index.html and sw.js in the GitHub Pages repository root, commit and push to main, open the site online once, then close and reopen the installed PWA.
+Coverage: 650/700 Telugu verse records. New Batch 10 records: 100.
+
+Install: replace index.html and sw.js in the GitHub Pages repository root, commit and push to main, open the site online once, then close and reopen the installed PWA. If the old version remains, clear the site's stored data in Chrome and reopen the site.
+
+Translations remain machine-generated drafts and should be reviewed by a fluent Telugu reader and a Bhagavad-gita subject expert. This package has been structurally validated but not tested on a physical Android device or deployed to GitHub Pages.
