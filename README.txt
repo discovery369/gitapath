@@ -1,10 +1,11 @@
-GitaPath — Telugu Translation Batch 9
+GitaPath Telugu Translation — Batch 10
 
-This package adds 100 Telugu translation entries to the existing GitaPath app.
-Coverage after this batch: 550 of 700 verse records (assuming the prior 450-entry base).
+Adds 100 Telugu translations to the existing app-wide Telugu language pack.
+Coverage after this batch: 650 of 700 verse records.
+New verse IDs: 15.1 through 18.28 (100 missing records in source order).
 
-Files: index.html, sw.js.
+The package includes index.html, sw.js, and this README. It preserves the existing app and earlier language/localization fixes.
 
-Translations are machine-generated Telugu drafts for review. They preserve source verse IDs; repeated/grouped passages retain their corresponding record IDs. The original Sanskrit and user notes are unchanged.
+Translations are machine-generated Telugu drafts and should be reviewed by a fluent Telugu reader and a Bhagavad-gita subject expert. This package has been structurally validated; it has not been tested on a physical Android device and has not been deployed to GitHub Pages.
 
-Install: replace index.html and sw.js in the GitHub Pages repository root, commit/push to main, open the site online once, then reopen the installed PWA.
+Install: replace index.html and sw.js in the GitHub Pages repository root, commit and push to main, open the site online once, then close and reopen the installed PWA.
