@@ -145,12 +145,16 @@ const WISDOM_VERSES=[
   {id:'2.11',speaker:'Śrī Kṛṣṇa'},{id:'2.20',speaker:'Śrī Kṛṣṇa'},{id:'2.47',speaker:'Śrī Kṛṣṇa'},
   {id:'4.7',speaker:'Śrī Kṛṣṇa'},{id:'4.8',speaker:'Śrī Kṛṣṇa'},{id:'6.5',speaker:'Śrī Kṛṣṇa'},
   {id:'9.22',speaker:'Śrī Kṛṣṇa'},{id:'9.26',speaker:'Śrī Kṛṣṇa'},{id:'10.8',speaker:'Śrī Kṛṣṇa'},
-  {id:'12.13',speaker:'Śrī Kṛṣṇa'},{id:'18.66',speaker:'Śrī Kṛṣṇa'}
+  {id:'12.13',speaker:'Śrī Kṛṣṇa'},{id:'18.66',speaker:'Śrī Kṛṣṇa'},
+  {id:'2.2',speaker:'Śrī Kṛṣṇa'},{id:'2.3',speaker:'Śrī Kṛṣṇa'}
 ];
 let lastWisdomId=null,wisdomObserver=null;
 function showRandomWisdom(){
   if(!verses.length)return;
-  const candidates=WISDOM_VERSES.map(x=>({...x,verse:verses.find(v=>v.id===x.id)})).filter(x=>x.verse&&x.verse.translation);
+  const translatedForLanguage=selectedLanguage!=='en' ? (GITAPATH_TRANSLATIONS[selectedLanguage]||{}) : null;
+  let candidates=WISDOM_VERSES.map(x=>({...x,verse:verses.find(v=>v.id===x.id)})).filter(x=>x.verse&&x.verse.translation);
+  // Prefer actual translations in the selected language over English fallback text.
+  if(translatedForLanguage){const translatedCandidates=candidates.filter(x=>translatedForLanguage[x.id]);if(translatedCandidates.length)candidates=translatedCandidates;}
   if(!candidates.length)return;
   let choices=candidates.filter(x=>x.id!==lastWisdomId);if(!choices.length)choices=candidates;
   const pick=choices[Math.floor(Math.random()*choices.length)];lastWisdomId=pick.id;
@@ -214,7 +218,7 @@ async function init(){try{
   if(embedded){DATA=JSON.parse(embedded.textContent);}
   else {const response=await fetch('verses.json');if(!response.ok)throw new Error('HTTP '+response.status);DATA=await response.json();}
   if(!DATA||!Array.isArray(DATA.verses)||!Array.isArray(DATA.chapters)||DATA.verses.length!==700)throw new Error('Verse data incomplete');
-  verses=DATA.verses;chapters=DATA.chapters;renderChips();renderChapters();renderList();updateProgress();setupWisdomRotation();startAppLocalization();
+  verses=DATA.verses;chapters=DATA.chapters;renderChips();renderChapters();renderList();updateProgress();showRandomWisdom();setupWisdomRotation();startAppLocalization();
   if('serviceWorker'in navigator&&location.protocol!=='file:'&&location.protocol!=='content:')navigator.serviceWorker.register('sw.js').catch(()=>{});
 }catch(e){console.error('GitaPath data load failed:',e);document.querySelector('#homeView').innerHTML='<div class="empty-state">The verse library could not be loaded. Please use the latest GitaPath offline file.</div>'}}
 
@@ -228,7 +232,22 @@ const GITAPATH_UI={te:{
 'SANSKRIT':'సంస్కృతం','ENGLISH TRANSLATION':'తెలుగు అనువాదం','TRANSLATION':'అనువాదం','MEANING & REFLECTION · ANUVṚTTI':'భావం మరియు మననం · అనువృత్తి','From this chapter':'ఈ అధ్యాయం నుండి','YOUR PERSONAL SPACE':'మీ వ్యక్తిగత స్థలం','Notes & attachments':'గమనికలు మరియు జోడింపులు','Write your thoughts, questions or how this verse applies to your day…':'మీ ఆలోచనలు, ప్రశ్నలు లేదా ఈ శ్లోకం మీ రోజుకు ఎలా వర్తిస్తుందో రాయండి…','＋ Attach files':'＋ ఫైళ్లను జోడించండి','Attach files':'ఫైళ్లను జోడించండి','Saved on this device':'ఈ పరికరంలో భద్రపరచబడింది','No files attached yet.':'ఇంకా ఫైళ్లు జోడించలేదు.','Add a note':'గమనిక జోడించండి','Write or edit your note for this verse:':'ఈ శ్లోకానికి గమనిక రాయండి లేదా సవరించండి:','Note saved on this device':'గమనిక ఈ పరికరంలో భద్రపరచబడింది','Marked as read ✓':'చదివినట్లు గుర్తించబడింది ✓','Already marked as read':'ఇప్పటికే చదివినట్లు గుర్తించారు','Removed from favourites':'ఇష్టమైన వాటి నుంచి తొలగించబడింది','Added to favourites ♥':'ఇష్టమైన వాటికి జోడించబడింది ♥','Double tap any verse card to save it here.':'ఇక్కడ భద్రపరచడానికి ఏ శ్లోక కార్డునైనా రెండుసార్లు తాకండి.','Your notes and attachments will appear here as you add them to verses.':'శ్లోకాలకు జోడించిన మీ గమనికలు, ఫైళ్లు ఇక్కడ కనిపిస్తాయి.','of':'లో','verses read':'శ్లోకాలు చదివారు','remaining':'మిగిలి ఉన్నాయి','Chapter':'అధ్యాయం','Verse':'శ్లోకం','Close':'మూసివేయి','Cancel':'రద్దు చేయి','Save':'భద్రపరచు','Delete':'తొలగించు','Remove':'తొలగించు','Download':'డౌన్‌లోడ్','Settings':'సెట్టింగ్‌లు','Ask Krishna':'కృష్ణుడిని అడగండి','Ask':'అడగండి','Your question':'మీ ప్రశ్న','What is troubling you today?':'ఈ రోజు మిమ్మల్ని ఏ విషయం కలవరపెడుతోంది?','Thinking…':'ఆలోచిస్తోంది…','Krishna’s guidance':'కృష్ణుని మార్గదర్శనం','Read this verse':'ఈ శ్లోకాన్ని చదవండి','Continue':'కొనసాగించు','Back':'వెనక్కి','Next':'తర్వాతి','Previous':'మునుపటి','Offline':'ఆఫ్‌లైన్','You are offline':'మీరు ఆఫ్‌లైన్‌లో ఉన్నారు','Language':'భాష','English selected.':'ఆంగ్లం ఎంచుకున్నారు.','selected.':'ఎంచుకున్నారు.','verses read':'శ్లోకాలు చదివారు','Your journey':'మీ ప్రయాణం','YOUR LIBRARY':'మీ గ్రంథాలయం','Explore the verses':'శ్లోకాలను అన్వేషించండి','Chapters ↗':'అధ్యాయాలు ↗','Search a verse, word or idea…':'శ్లోకం, పదం లేదా భావాన్ని వెతకండి…','All verses':'అన్ని శ్లోకాలు','Unread':'చదవనివి','♥ Favourites':'♥ ఇష్టమైనవి','Swipe a card up to mark it read':'చదివినట్లు గుర్తించడానికి కార్డును పైకి స్వైప్ చేయండి','Double tap to favourite':'ఇష్టమైనదిగా గుర్తించడానికి రెండుసార్లు తాకండి','THE COMPLETE TEXT':'పూర్తి గ్రంథం','Choose a chapter to explore its verses and reflections.':'శ్లోకాలు, భావాలను చూడటానికి అధ్యాయాన్ని ఎంచుకోండి.','SAVED BY YOU':'మీరు భద్రపరచినవి','Verses you want to return to.':'మీరు మళ్లీ చదవాలనుకునే శ్లోకాలు.','YOUR PERSONAL JOURNAL':'మీ వ్యక్తిగత దినచర్య','My notes':'నా గమనికలు','Thoughts and attachments saved alongside verses.':'శ్లోకాలతో పాటు భద్రపరచిన ఆలోచనలు, జోడింపులు.','YOUR PRACTICE':'మీ సాధన','Reading journey':'పఠన ప్రయాణం','A little wisdom each day adds up.':'ప్రతిరోజూ కొంత జ్ఞానం మీ జీవితాన్ని సమృద్ధి చేస్తుంది.','complete':'పూర్తి','18 chapters':'18 అధ్యాయాలు','WISDOM FOR YOUR QUESTION':'మీ ప్రశ్నకు జ్ఞానం','Write what is on your mind. GitaPath will find a relevant teaching spoken by Śrī Kṛṣṇa and connect it to an example from the Bhagavad-gītā.':'మీ మనసులో ఉన్నదాన్ని రాయండి. గీతాపథ్ శ్రీకృష్ణుడు ఉపదేశించిన సంబంధిత బోధనను కనుగొని, భగవద్గీతలోని ఉదాహరణతో అనుసంధానిస్తుంది.','Your question':'మీ ప్రశ్న','Find Krishna’s guidance':'కృష్ణుని మార్గదర్శకత్వాన్ని కనుగొనండి','Works offline using a curated set of Krishna’s teachings from the Gītā. It is a study aid, not a claim that Krishna is personally responding.':'గీతలోని కృష్ణుని బోధనల ఎంపిక చేసిన సమాహారంతో ఇది ఆఫ్‌లైన్‌లో పనిచేస్తుంది. ఇది అధ్యయన సహాయక సాధనం మాత్రమే; కృష్ణుడు వ్యక్తిగతంగా సమాధానమిస్తున్నాడనే వాదన కాదు.','Bring a question from your day':'మీ రోజువారీ ప్రశ్నను తీసుకురండి','All your reading progress, notes and attachments stay on this device.':'మీ పఠన పురోగతి, గమనికలు, జోడింపులు ఈ పరికరంలోనే ఉంటాయి.','About this edition':'ఈ సంచిక గురించి','Reset reading progress and favourites':'పఠన పురోగతి, ఇష్టమైనవాటిని రీసెట్ చేయండి','Close':'మూసివేయి','WISDOM FOR YOUR QUESTION':'మీ ప్రశ్నకు జ్ఞానం','AN EXAMPLE FROM THE GĪTĀ':'గీతలోని ఒక ఉదాహరణ','Krishna’s teaching':'కృష్ణుని బోధన','The field of dharma':'ధర్మక్షేత్రం'
 }};
 const originalTextNodes=new Map(),originalAttributes=new Map();
-function localizeTextNode(node){if(!node||node.nodeType!==3)return;const raw=node.nodeValue;if(!originalTextNodes.has(node))originalTextNodes.set(node,raw);const original=originalTextNodes.get(node),trim=original.trim();if(!trim)return;const dict=GITAPATH_UI[selectedLanguage]||{};if(selectedLanguage==='en'){node.nodeValue=original;return;}let translated=original;for(const [from,to] of Object.entries(dict).sort((a,b)=>b[0].length-a[0].length)){if(from.length>1)translated=translated.split(from).join(to);}node.nodeValue=translated;}
+function localizeTextNode(node){
+  if(!node||node.nodeType!==3)return;
+  const raw=node.nodeValue;
+  if(!originalTextNodes.has(node))originalTextNodes.set(node,raw);
+  const original=originalTextNodes.get(node);
+  if(!original.trim())return;
+  const dict=GITAPATH_UI[selectedLanguage]||{};
+  let translated=original;
+  if(selectedLanguage!=='en'){
+    for(const [from,to] of Object.entries(dict).sort((a,b)=>b[0].length-a[0].length)){
+      if(from.length>1)translated=translated.split(from).join(to);
+    }
+  }
+  // Avoid a self-triggering MutationObserver loop.
+  if(node.nodeValue!==translated)node.nodeValue=translated;
+}
 function applyAppLocalization(root=document.body){if(!root)return;const dict=GITAPATH_UI[selectedLanguage]||{};const walk=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);let n;while(n=walk.nextNode())localizeTextNode(n);root.querySelectorAll?.('[placeholder],[aria-label],[title]').forEach(el=>{for(const a of ['placeholder','aria-label','title']){const k=el.tagName+'|'+a;if(!originalAttributes.has(el))originalAttributes.set(el,{});const saved=originalAttributes.get(el);if(!(a in saved))saved[a]=el.getAttribute(a);const v=saved[a];el.setAttribute(a,selectedLanguage==='en'?v:(v&&dict[v]?dict[v]:v));}});}
 let localizationObserver=null;
 function startAppLocalization(){if(localizationObserver)localizationObserver.disconnect();for(const [node,original] of originalTextNodes){if(node.isConnected)node.nodeValue=original;}for(const [el,attrs] of originalAttributes){if(el.isConnected)for(const [a,v] of Object.entries(attrs))el.setAttribute(a,v??'');}applyAppLocalization();localizationObserver=new MutationObserver(records=>{for(const r of records){if(r.type==='characterData')localizeTextNode(r.target);for(const node of r.addedNodes||[]){if(node.nodeType===3)localizeTextNode(node);else if(node.nodeType===1)applyAppLocalization(node);}}});localizationObserver.observe(document.body,{subtree:true,childList:true,characterData:true});}

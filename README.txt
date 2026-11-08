@@ -1,22 +1,16 @@
-GitaPath — Telugu App Localization + Verse Batch 1
+GitaPath — Language Selector Freeze + Random Wisdom Fix
 
-This update builds on the latest GitaPath Telugu Batch 3 package and retains its offline PWA shell, Ask Krishna feature, notes/attachments, swipe navigation and page-turn animation.
+Fixes
+1. Language selector freeze: the localization MutationObserver previously rewrote already-translated text nodes, triggering itself repeatedly. The renderer now writes only when text actually changes.
+2. Random translated verse: the hero now prefers Krishna-spoken verses that have an actual translation in the selected language. Telugu Batch 1 includes Krishna-spoken verses 2.2 and 2.3, so these are used for the Telugu hero until later batches add more.
+3. Initial display: a random wisdom verse is rendered immediately at startup, not only after the visibility observer callback.
+4. Offline cache: service-worker cache version bumped to v8.
 
-Included in this release
-- Central language/localization layer used by static and dynamically rendered app text.
-- Telugu interface translations for the available common labels, navigation items, reading controls, notes/attachments and Ask Krishna interface. Untranslated interface strings remain in English rather than being guessed.
-- Telugu verse translation drafts for 50 actual verse records: Bhagavad-gita 1.1–1.45 and 2.1–2.5. The edition's 1.46 item is chapter-level commentary, not a verse, so it is not counted in the 50.
-- Telugu-script rendering of the Roman Sanskrit transliteration for Telugu selection. Original Sanskrit data and English source translations remain unchanged.
-- English remains the default. Other languages remain selectable, but until their packs are added they use English fallback. Existing Hindi draft data (20 records) is retained, but this release's new batch is Telugu-first.
-- Notes, favourites, reading progress and attachments remain stored locally and are not cleared by language switching.
-- Offline service-worker cache updated to v7.
+Install
+- Back up your current repository files.
+- Extract this ZIP and replace repository-root index.html and sw.js.
+- Commit and push to the main branch.
+- Open the site online once, wait for the cache update, then close and reopen the installed app.
+- If the old version remains, clear the site's cached data in Chrome and reopen.
 
-Important translation note
-Telugu verse and interface translations are machine-generated drafts and should be reviewed by a fluent Telugu/Sanskrit reviewer before scholarly or publication use. This package does not claim that all 700 verses or every app string have been translated. Missing translations visibly fall back to English.
-
-Install/update
-1. Back up the current repository files.
-2. Extract this ZIP.
-3. Replace the repository-root index.html and sw.js with the included files.
-4. Commit and push to the GitHub Pages main branch.
-5. Open the site once online so the updated service worker installs; if an old cached screen remains, close and reopen the PWA after the cache refresh.
+Telugu verse translations remain machine-generated drafts and should be reviewed by a fluent Telugu/Sanskrit reviewer. This hotfix fixes the freeze and hero display; it does not add more translated verses.
