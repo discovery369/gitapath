@@ -1,22 +1,18 @@
-GitaPath v25 — 18 Chapter Illustrations
+GitaPath v26 — Chapter artwork fit correction
 
-This package builds on GitaPath v24 and adds one original, chapter-specific illustration for each of the Bhagavad-gita's 18 chapters.
+This update preserves all 18 chapter illustrations and the existing app features.
 
-What changed:
-- Added 18 separate optimized WebP images in assets/ (chapter-01.webp through chapter-18.webp).
-- Each chapter tile in the Chapters view displays its own illustration.
-- Every verse detail view displays the illustration for that verse's chapter, so all verses in the same chapter share the same chapter art.
-- Accurate chapter names remain rendered by the app; generated lettering from the artwork has been cropped out.
-- Updated the service worker to v25 and precaches all 18 images for offline use.
-- Existing verse data, translations, Ask Krishna, favourites, notes, attachments, reading progress and language features are preserved from v24.
+Image display improvements:
+- Verse detail artwork now uses a 16:9 frame and object-fit: contain.
+- Chapter-card artwork uses the same 16:9 contain treatment.
+- Artwork is no longer cropped or stretched; the full illustration remains visible.
+- Soft cream background fills any unused space around artwork.
 
-Install/update:
+GitHub Pages update:
 1. Extract this ZIP.
-2. Upload/replace index.html and sw.js in the root of the GitHub Pages repository.
-3. Upload the entire assets folder (including all 18 WebP files) to the repository root, keeping the folder name exactly "assets".
-4. Commit and push to the main branch.
-5. Open the website online once and allow the new service worker to install, then close and reopen the installed PWA.
+2. Replace index.html and sw.js in the repository root.
+3. Upload/replace the complete assets folder, including all 18 chapter-XX.webp files.
+4. Commit changes to main.
+5. Open the site once online, then close and reopen the installed PWA.
 
-Offline note: all 18 images are included in the service-worker precache list. The initial update requires an internet connection so the new assets can be downloaded.
-
-Validation performed: all 18 image files exist and are referenced by the app; all 700 verse records are retained; JavaScript syntax and ZIP integrity are checked. This package has not been deployed to GitHub Pages or tested on a physical Android device.
+The ZIP includes index.html, sw.js, README.txt and assets/.

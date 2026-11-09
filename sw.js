@@ -1,4 +1,4 @@
-const CACHE_NAME = 'gitapath-offline-v25';
+const CACHE_NAME = 'gitapath-offline-v26';
 const CHAPTER_ART = Array.from({length:18}, (_,i) => `./assets/chapter-${String(i+1).padStart(2,'0')}.webp`);
 const APP_SHELL = ['./', './index.html', ...CHAPTER_ART];
 self.addEventListener('install', event => {
