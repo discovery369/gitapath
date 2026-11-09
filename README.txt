@@ -1,25 +1,22 @@
-GitaPath v23 — Telugu Translation Batch
-Chapter 18, verses 18.51–18.78
+GitaPath v25 — 18 Chapter Illustrations
 
-This package completes the Telugu draft translation coverage of Chapter 18.
-- Adds Telugu translation drafts for verses 18.51–18.78.
-- Verses 18.51–18.53 share one grouped source passage and use matching Telugu text.
-- Verses 18.76–18.77 share one grouped source passage and use matching Telugu text.
-- Preserves the existing Sanskrit, transliteration, English fallback, interface, favourites, notes, attachments, and read/unread features.
-- Updates the offline service-worker cache to v23.
+This package builds on GitaPath v24 and adds one original, chapter-specific illustration for each of the Bhagavad-gita's 18 chapters.
 
-The Telugu text is machine-assisted draft translation. It has not been certified by a Sanskrit or Telugu scholar; please have it reviewed before treating it as a definitive edition.
+What changed:
+- Added 18 separate optimized WebP images in assets/ (chapter-01.webp through chapter-18.webp).
+- Each chapter tile in the Chapters view displays its own illustration.
+- Every verse detail view displays the illustration for that verse's chapter, so all verses in the same chapter share the same chapter art.
+- Accurate chapter names remain rendered by the app; generated lettering from the artwork has been cropped out.
+- Updated the service worker to v25 and precaches all 18 images for offline use.
+- Existing verse data, translations, Ask Krishna, favourites, notes, attachments, reading progress and language features are preserved from v24.
 
-To update GitHub Pages:
+Install/update:
 1. Extract this ZIP.
-2. Replace index.html and sw.js in the repository root.
-3. Commit and push to the main branch.
-4. Open the website online once, then close and reopen the installed PWA.
+2. Upload/replace index.html and sw.js in the root of the GitHub Pages repository.
+3. Upload the entire assets folder (including all 18 WebP files) to the repository root, keeping the folder name exactly "assets".
+4. Commit and push to the main branch.
+5. Open the website online once and allow the new service worker to install, then close and reopen the installed PWA.
 
+Offline note: all 18 images are included in the service-worker precache list. The initial update requires an internet connection so the new assets can be downloaded.
 
-VERSION 24 UPDATE
-- Ask Krishna now displays Telugu guidance, examples, Arjuna-context notes, headings, and answer status text when Telugu is selected. All 21 curated offline guidance matches have Telugu response text.
-- All 18 chapter names now display in Telugu script when Telugu is selected, including chapter chips, chapter cards, verse cards, and the verse detail heading. English chapter names remain unchanged when English is selected.
-- Offline cache updated to gitapath-offline-v24.
-- Telugu chapter names are script transliterations of the chapter titles, not newly authored chapter summaries.
-- The Ask Krishna feature remains an offline topic-matching study aid, not a live AI conversation.
+Validation performed: all 18 image files exist and are referenced by the app; all 700 verse records are retained; JavaScript syntax and ZIP integrity are checked. This package has not been deployed to GitHub Pages or tested on a physical Android device.
