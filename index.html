@@ -52,6 +52,20 @@
 .chapter-under-image p{margin:0;color:var(--muted);font:11px/1.45 'DM Sans',sans-serif}
 .chapter-image-tools{bottom:12px;right:12px}
 @media(max-width:560px){.chapter-sticky{top:70px}.chapter-sticky-image-wrap{width:100vw;margin-left:calc(50% - 50vw);max-height:none;aspect-ratio:16/9}.chapter-image-chapter-select{left:9px;bottom:9px;gap:5px;padding:5px 7px;max-width:calc(100% - 205px)}.chapter-image-chapter-select label{font-size:7px}.chapter-image-chapter-select select{max-width:130px;font-size:10px}.chapter-under-image{padding:8px 12px 2px}.chapter-under-image h2{font-size:18px}}
+
+/* Equal-height chapter selector and icon toolbar; chapter title is two lines inside selector. */
+.chapter-image-chapter-select{position:absolute;left:12px;bottom:12px;z-index:4;width:calc(50% - 21px);height:72px;box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 15px;border:1px solid rgba(255,255,255,.42);border-radius:999px;background:rgba(20,37,31,.34);backdrop-filter:blur(11px);-webkit-backdrop-filter:blur(11px);box-shadow:0 3px 15px rgba(0,0,0,.12)}
+.chapter-select-copy{display:flex;flex-direction:column;justify-content:center;gap:4px;min-width:0;color:#fff;text-align:left}
+.chapter-select-kicker{font:800 9px/1 'DM Sans',sans-serif;letter-spacing:.14em;color:rgba(255,255,255,.82)}
+.chapter-select-kicker b{font-weight:900;color:#fff}
+.chapter-select-copy strong{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:700 16px/1.15 'Playfair Display',Georgia,serif;color:#fff}
+.chapter-select-chevron{font-size:24px;line-height:1;color:#fff;opacity:.9}
+.chapter-image-chapter-select select{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;z-index:5;max-width:none}
+.chapter-image-tools{position:absolute;right:12px;bottom:12px;z-index:3;height:72px;box-sizing:border-box;display:flex;align-items:center;justify-content:space-evenly;gap:6px;width:calc(50% - 21px);padding:6px;border:1px solid rgba(255,255,255,.4);border-radius:999px;background:rgba(20,37,31,.34);backdrop-filter:blur(11px);-webkit-backdrop-filter:blur(11px);box-shadow:0 3px 15px rgba(0,0,0,.12)}
+.image-tool{width:48px;height:48px;flex:0 1 48px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);color:rgba(255,255,255,.9)}
+.chapter-under-image{margin:9px 12px 12px;padding:10px 15px;border:1px solid rgba(255,255,255,.62);border-radius:13px;background:rgba(226,231,220,.48);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px)}
+.chapter-under-image p{margin:0;color:var(--muted);font:12px/1.45 'DM Sans',sans-serif}
+@media(max-width:560px){.chapter-image-chapter-select{left:9px;bottom:9px;width:calc(50% - 15px);height:62px;padding:7px 11px}.chapter-select-kicker{font-size:7px}.chapter-select-copy strong{font-size:12px}.chapter-select-chevron{font-size:20px}.chapter-image-tools{right:9px;bottom:9px;width:calc(50% - 15px);height:62px;gap:3px;padding:4px}.image-tool{width:38px;height:38px;flex-basis:38px;padding:6px}.image-tool svg{width:19px;height:19px}.chapter-under-image{margin:8px 9px 11px;padding:8px 12px}.chapter-under-image p{font-size:10px}}
 </style>
 </head>
 <body>
@@ -67,8 +81,12 @@
 <div class="chapter-sticky" id="chapterSticky">
   <div class="chapter-sticky-image-wrap">
     <img id="chapterStickyImage" src="assets/chapter-01.webp" alt="Chapter 1 illustration" decoding="async">
-    <div class="chapter-image-chapter-select">
-      <label for="chapterSelect">SELECT CHAPTER</label>
+    <div class="chapter-image-chapter-select" id="chapterSelectShell">
+      <div class="chapter-select-copy" aria-hidden="true">
+        <span class="chapter-select-kicker">CHAPTER <b id="chapterSelectNumber">01</b></span>
+        <strong id="chapterSelectName">Sainya-Darśana</strong>
+      </div>
+      <span class="chapter-select-chevron" aria-hidden="true">⌄</span>
       <select id="chapterSelect" aria-label="Select chapter"></select>
     </div>
     <div class="chapter-image-tools" role="group" aria-label="Verse tools">
@@ -90,7 +108,6 @@
     </div>
   </div>
   <div class="chapter-under-image">
-    <h2 id="chapterStickyTitle">Sainya-Darśana</h2>
     <p id="chapterStickySubtitle">Observing the Armies on the Battlefield</p>
   </div>
 </div>
@@ -143,7 +160,7 @@ function chapterDisplayTitleByNumber(n){return selectedLanguage==='te'?(TELUGU_C
 function updateProgress(){if(!verses.length)return;let n=verses.reduce((sum,v)=>sum+(isRead(v.id)?1:0),0),p=Math.round(n/verses.length*100);if($('#readCount'))$('#readCount').textContent=n;if($('#progressPct'))$('#progressPct').textContent=p+'%';if($('#progressBar'))$('#progressBar').style.width=p+'%';if($('#bigPct')){$('#bigPct').textContent=p+'%';$('#bigBar').style.width=p+'%';$('#bigRead').textContent=`${n} of ${verses.length} verses read`;$ ('#bigLeft').textContent=`${verses.length-n} remaining`}}
 function chapterProgress(ch){let all=verses.filter(v=>v.chapter===ch),done=all.filter(v=>isRead(v.id)).length;return {done,total:all.length,pct:all.length?Math.round(done/all.length*100):0}}
 function renderChips(){const select=$('#chapterSelect');if(!select)return;select.innerHTML=chapters.map(c=>`<option value="${c.number}">${String(c.number).padStart(2,'0')}. ${esc(chapterDisplayTitle(c))}</option>`).join('');select.value=String(selectedChapter||1);updateChapterSpotlight();select.onchange=()=>{selectedChapter=Number(select.value)||1;updateChapterSpotlight();renderList()}}
-function updateChapterSpotlight(){const n=selectedChapter||1,c=chapterInfo(n);const img=$('#chapterStickyImage');if(!img)return;img.src=chapterArtPath(n);img.alt=chapterDisplayTitle(c)+' illustration';$('#chapterStickyTitle').textContent=chapterDisplayTitle(c);$('#chapterStickySubtitle').textContent=c.subtitle||artCaption(n)}
+function updateChapterSpotlight(){const n=selectedChapter||1,c=chapterInfo(n);const img=$('#chapterStickyImage');if(!img)return;img.src=chapterArtPath(n);img.alt=chapterDisplayTitle(c)+' illustration';const no=$('#chapterSelectNumber'),name=$('#chapterSelectName'),desc=$('#chapterStickySubtitle');if(no)no.textContent=String(n).padStart(2,'0');if(name)name.textContent=chapterDisplayTitle(c);if(desc)desc.textContent=c.subtitle||artCaption(n)}
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function matches(v,q){if(!q)return true;let c=chapterInfo(v.chapter);return `${v.id} ${v.chapter_title} ${v.transliteration} ${v.translation} ${verseTranslation(v)} ${v.sanskrit}`.toLowerCase().includes(q.toLowerCase())}
 function filtered(list=verses){let q=$('#searchInput').value.trim();return list.filter(v=>(v.chapter===(selectedChapter||1))&&matches(v,q)&&(activeFilter==='all'||(activeFilter==='read'?isRead(v.id):activeFilter==='unread'?!isRead(v.id):isFav(v.id))))}
