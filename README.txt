@@ -1,21 +1,13 @@
-GitaPath image-overlay controls update — v30
+GitaPath layout update — v31
 
-Replace these files in the GitHub repository root:
-- index.html
-- sw.js
-
-Keep the existing assets/ folder and all chapter-01.webp through chapter-18.webp files.
+Replace index.html and sw.js in the GitHub repository root.
+Keep the existing assets folder and all 18 chapter-XX.webp files.
 
 Changes:
-- The chapter selector stays above the full-width chapter image.
-- Five translucent controls are overlaid at the bottom-right of the image:
-  1. Closed book: all verses
-  2. Open book with green left page: read verses
-  3. Open book with clear pages: unread verses
-  4. Heart: favourites
-  5. Magnifier: reveal the search field
-- The icons use a translucent glass-like background so the artwork remains visible.
-- The old separate filter buttons are hidden; the existing filter logic is reused.
-- Service-worker cache is bumped to gitapath-offline-v30.
-
-After committing index.html and sw.js, wait for GitHub Pages to deploy, then refresh the app.
+- Wisdom section is the only content above the chapter artwork.
+- Removed the progress strip and Explore the verses heading from between Wisdom and artwork.
+- Chapter selector is now translucent at the lower-left of the chapter image.
+- Chapter title and chapter description are displayed directly below the image.
+- Existing translucent filter/search icons remain at the lower-right of the image.
+- Search, filters and verse list remain below the chapter title/description.
+- Service-worker cache bumped to v31.

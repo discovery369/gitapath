@@ -38,6 +38,20 @@
 #chapterSearchPanel{margin:12px 0 14px}
 #chapterSearchPanel:not(.hidden){display:flex}
 @media(max-width:560px){.chapter-image-tools{right:10px;bottom:10px;gap:4px;padding:5px}.image-tool{width:31px;height:31px;padding:6px}.image-tool svg{width:19px;height:19px}}
+
+/* Chapter selector overlays the lower-left of the art; chapter title and description follow below. */
+.chapter-sticky{position:sticky;top:70px;z-index:4;margin:0 0 14px;padding:0;background:transparent;border:0;border-radius:0;box-shadow:none;backdrop-filter:none}
+.chapter-sticky-image-wrap{position:relative;isolation:isolate;width:100vw;max-width:none;margin-left:calc(50% - 50vw);overflow:hidden;border-radius:0;background:#20352e;aspect-ratio:16/9;height:auto;max-height:none}
+.chapter-sticky-image-wrap img{display:block;width:100%;max-width:none;height:100%;object-fit:cover;object-position:center}
+.chapter-image-chapter-select{position:absolute;left:12px;bottom:12px;z-index:4;display:flex;align-items:center;gap:7px;max-width:calc(100% - 240px);padding:6px 9px;border:1px solid rgba(255,255,255,.36);border-radius:999px;background:rgba(20,37,31,.3);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px)}
+.chapter-image-chapter-select label{flex:0 0 auto;color:rgba(255,255,255,.85);font-size:8px;font-weight:800;letter-spacing:.12em}
+.chapter-image-chapter-select select{min-width:0;max-width:220px;border:0;outline:0;background:transparent;color:#fff;font:600 11px 'DM Sans',sans-serif}
+.chapter-image-chapter-select select option{color:#20352e;background:#fff}
+.chapter-under-image{padding:10px 14px 2px}
+.chapter-under-image h2{margin:0 0 3px;color:var(--ink);font:600 20px/1.25 'Playfair Display',Georgia,serif}
+.chapter-under-image p{margin:0;color:var(--muted);font:11px/1.45 'DM Sans',sans-serif}
+.chapter-image-tools{bottom:12px;right:12px}
+@media(max-width:560px){.chapter-sticky{top:70px}.chapter-sticky-image-wrap{width:100vw;margin-left:calc(50% - 50vw);max-height:none;aspect-ratio:16/9}.chapter-image-chapter-select{left:9px;bottom:9px;gap:5px;padding:5px 7px;max-width:calc(100% - 205px)}.chapter-image-chapter-select label{font-size:7px}.chapter-image-chapter-select select{max-width:130px;font-size:10px}.chapter-under-image{padding:8px 12px 2px}.chapter-under-image h2{font-size:18px}}
 </style>
 </head>
 <body>
@@ -50,17 +64,13 @@
   <div class="hero-copy"><div class="eyebrow">THE SONG OF THE SUPREME</div><h1>Wisdom for<br><em>every day.</em></h1><button class="primary-btn" id="continueBtn">Continue reading <span>→</span></button></div>
   <div class="hero-quote" aria-live="polite"><div class="hero-quote-mark">“</div><p class="hero-quote-text medium" id="wisdomText">The wise lament for neither the living nor the dead.</p><button class="hero-quote-source" id="wisdomSource" type="button" aria-label="Open this verse in its chapter">Śrī Kṛṣṇa · Bhagavad-gītā 2.11</button><div class="ask-krishna-wrap"><button class="ask-krishna-btn" id="askKrishnaOpen" type="button">✦ Ask Krishna</button><span>Bring a question from your day</span></div></div>
 </div>
-<div class="stats-row"><div><strong id="readCount">0</strong><span>verses read</span></div><div class="progress-wrap"><div class="progress-label"><span>Your journey</span><b id="progressPct">0%</b></div><div class="progress-track"><i id="progressBar"></i></div></div><div><strong>18</strong><span>chapters</span></div></div>
-<div class="section-heading"><div><span class="eyebrow">YOUR LIBRARY</span><h2>Explore the verses</h2></div><button class="text-btn" id="allChaptersBtn">Chapters ↗</button></div>
 <div class="chapter-sticky" id="chapterSticky">
-  <div class="chapter-sticky-heading">
-    <label for="chapterSelect">SELECT CHAPTER</label>
-    <select id="chapterSelect" aria-label="Select chapter"></select>
-    <span id="chapterStickySubtitle"></span>
-  </div>
   <div class="chapter-sticky-image-wrap">
     <img id="chapterStickyImage" src="assets/chapter-01.webp" alt="Chapter 1 illustration" decoding="async">
-    <div class="chapter-sticky-caption"><span id="chapterStickyNumber">CHAPTER 01</span><strong id="chapterStickyTitle">Sainya-Darśana</strong></div>
+    <div class="chapter-image-chapter-select">
+      <label for="chapterSelect">SELECT CHAPTER</label>
+      <select id="chapterSelect" aria-label="Select chapter"></select>
+    </div>
     <div class="chapter-image-tools" role="group" aria-label="Verse tools">
       <button type="button" class="image-tool active" data-image-filter="all" aria-label="All verses" title="All verses">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5c0-.8.7-1.5 1.5-1.5H19v15H5.5A1.5 1.5 0 0 1 4 17.5z"/><path d="M4 6h13M7 8.5h9M7 11.5h9"/></svg>
@@ -78,6 +88,10 @@
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.6"/><path d="m16 16 4.5 4.5"/></svg>
       </button>
     </div>
+  </div>
+  <div class="chapter-under-image">
+    <h2 id="chapterStickyTitle">Sainya-Darśana</h2>
+    <p id="chapterStickySubtitle">Observing the Armies on the Battlefield</p>
   </div>
 </div>
 <div class="search-wrap hidden" id="chapterSearchPanel"><span>⌕</span><input id="searchInput" placeholder="Search a verse, word or idea…" autocomplete="off"><button id="clearSearch" aria-label="Clear search">×</button></div>
@@ -129,7 +143,7 @@ function chapterDisplayTitleByNumber(n){return selectedLanguage==='te'?(TELUGU_C
 function updateProgress(){if(!verses.length)return;let n=verses.reduce((sum,v)=>sum+(isRead(v.id)?1:0),0),p=Math.round(n/verses.length*100);$('#readCount').textContent=n;$('#progressPct').textContent=p+'%';$('#progressBar').style.width=p+'%';if($('#bigPct')){$('#bigPct').textContent=p+'%';$('#bigBar').style.width=p+'%';$('#bigRead').textContent=`${n} of ${verses.length} verses read`;$ ('#bigLeft').textContent=`${verses.length-n} remaining`}}
 function chapterProgress(ch){let all=verses.filter(v=>v.chapter===ch),done=all.filter(v=>isRead(v.id)).length;return {done,total:all.length,pct:all.length?Math.round(done/all.length*100):0}}
 function renderChips(){const select=$('#chapterSelect');if(!select)return;select.innerHTML=chapters.map(c=>`<option value="${c.number}">${String(c.number).padStart(2,'0')}. ${esc(chapterDisplayTitle(c))}</option>`).join('');select.value=String(selectedChapter||1);updateChapterSpotlight();select.onchange=()=>{selectedChapter=Number(select.value)||1;updateChapterSpotlight();renderList()}}
-function updateChapterSpotlight(){const n=selectedChapter||1,c=chapterInfo(n);const img=$('#chapterStickyImage');if(!img)return;img.src=chapterArtPath(n);img.alt=chapterDisplayTitle(c)+' illustration';$('#chapterStickyNumber').textContent='CHAPTER '+String(n).padStart(2,'0');$('#chapterStickyTitle').textContent=chapterDisplayTitle(c);$('#chapterStickySubtitle').textContent=c.subtitle||artCaption(n)}
+function updateChapterSpotlight(){const n=selectedChapter||1,c=chapterInfo(n);const img=$('#chapterStickyImage');if(!img)return;img.src=chapterArtPath(n);img.alt=chapterDisplayTitle(c)+' illustration';$('#chapterStickyTitle').textContent=chapterDisplayTitle(c);$('#chapterStickySubtitle').textContent=c.subtitle||artCaption(n)}
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function matches(v,q){if(!q)return true;let c=chapterInfo(v.chapter);return `${v.id} ${v.chapter_title} ${v.transliteration} ${v.translation} ${verseTranslation(v)} ${v.sanskrit}`.toLowerCase().includes(q.toLowerCase())}
 function filtered(list=verses){let q=$('#searchInput').value.trim();return list.filter(v=>(v.chapter===(selectedChapter||1))&&matches(v,q)&&(activeFilter==='all'||(activeFilter==='read'?isRead(v.id):activeFilter==='unread'?!isRead(v.id):isFav(v.id))))}
