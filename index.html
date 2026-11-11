@@ -113,6 +113,43 @@
     border-radius:18px;
   }
 }
+
+/* v36 homepage: compact split controls, image-attached description, floating wisdom and Ask Krishna */
+.home-continue-row{display:flex;justify-content:flex-start;margin:0 0 12px}
+.home-continue-row .primary-btn{padding:8px 13px;font-size:11px}
+.chapter-image-chapter-select{width:calc(33.333% - 18px);max-width:none;height:36px}
+.chapter-image-tools{width:calc(25% - 18px);height:36px;right:12px;justify-content:space-around;gap:2px}
+.image-tool{width:23px;height:23px;flex:0 1 23px;padding:3px}
+.image-tool svg{width:14px;height:14px}
+.chapter-image-chapter-select select{max-width:none}
+.chapter-select-copy strong{max-width:100%;font-size:9px}
+.chapter-image-description{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:30px 14px 9px;background:linear-gradient(180deg,rgba(20,37,31,0),rgba(20,37,31,.58));pointer-events:none}
+.chapter-image-description p{margin:0;color:rgba(255,255,255,.94);font:500 11px/1.35 'DM Sans',sans-serif;text-shadow:0 1px 4px rgba(0,0,0,.45)}
+.chapter-under-image{display:none!important}
+.floating-wisdom,.floating-ask-krishna{position:fixed;right:18px;z-index:22;width:48px;height:48px;border-radius:50%;display:grid;place-items:center;border:1px solid rgba(255,255,255,.55);color:#fff;background:rgba(32,70,57,.82);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 5px 18px rgba(0,0,0,.2);font-size:22px;cursor:pointer}
+.floating-ask-krishna{bottom:calc(88px + env(safe-area-inset-bottom));background:rgba(177,116,57,.9);font-size:25px}
+.floating-wisdom{bottom:calc(145px + env(safe-area-inset-bottom));font-family:serif;color:#f0d6a0}
+.wisdom-widget-modal{display:none;position:fixed;inset:0;z-index:35;background:rgba(12,24,19,.58);padding:18px;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+.wisdom-widget-modal.open{display:flex}
+.wisdom-widget-panel{width:min(100%,520px);background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:0 18px 60px rgba(0,0,0,.25)}
+.wisdom-widget-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.wisdom-widget-head h2{margin:5px 0 0;color:var(--ink);font:600 23px 'Playfair Display',Georgia,serif}
+.wisdom-widget-head button{border:0;background:transparent;color:var(--ink);font-size:28px}
+.wisdom-widget-quote{margin:16px 0;padding:18px;border-radius:14px;background:#21483b;color:#fff8eb}
+.wisdom-widget-mark{font:32px Georgia;color:#e8c994}
+.wisdom-widget-quote .hero-quote-text{margin:5px 0 14px;color:#fff8eb;font:500 19px/1.5 'Playfair Display',Georgia,serif}
+.wisdom-widget-quote .hero-quote-source{color:#e8c994}
+.wisdom-next{border:1px solid var(--line);border-radius:20px;background:transparent;padding:9px 14px;color:var(--green);font-weight:700}
+@media(max-width:560px){
+ .chapter-image-chapter-select{width:calc(33.333% - 12px);height:31px;left:8px;bottom:8px;padding:2px 6px}
+ .chapter-select-kicker{font-size:5px}.chapter-select-copy strong{font-size:7px}
+ .chapter-image-tools{width:calc(25% - 12px);height:31px;right:8px;bottom:8px;padding:2px;gap:1px}
+ .image-tool{width:19px;height:19px;flex-basis:19px;padding:2px}.image-tool svg{width:12px;height:12px}
+ .chapter-image-description{padding:24px 9px 7px}.chapter-image-description p{font-size:9px}
+ .floating-wisdom,.floating-ask-krishna{width:43px;height:43px;right:13px}
+ .floating-ask-krishna{bottom:calc(82px + env(safe-area-inset-bottom))}
+ .floating-wisdom{bottom:calc(132px + env(safe-area-inset-bottom))}
+}
 </style>
 </head>
 <body>
@@ -121,13 +158,11 @@
 <div id="languageStatus" class="language-status" role="status" aria-live="polite"><strong>English selected.</strong> Other language translations are being prepared for offline use.</div>
 <main id="main">
 <section id="homeView" class="view active">
-<div class="hero" id="wisdomHero">
-  <div class="hero-copy"><div class="eyebrow">THE SONG OF THE SUPREME</div><h1>Wisdom for<br><em>every day.</em></h1><button class="primary-btn" id="continueBtn">Continue reading <span>→</span></button></div>
-  <div class="hero-quote" aria-live="polite"><div class="hero-quote-mark">“</div><p class="hero-quote-text medium" id="wisdomText">The wise lament for neither the living nor the dead.</p><button class="hero-quote-source" id="wisdomSource" type="button" aria-label="Open this verse in its chapter">Śrī Kṛṣṇa · Bhagavad-gītā 2.11</button><div class="ask-krishna-wrap"><button class="ask-krishna-btn" id="askKrishnaOpen" type="button">✦ Ask Krishna</button><span>Bring a question from your day</span></div></div>
-</div>
+<div class="home-continue-row"><button class="primary-btn" id="continueBtn">Continue reading <span>→</span></button></div>
 <div class="chapter-sticky" id="chapterSticky">
   <div class="chapter-sticky-image-wrap">
     <img id="chapterStickyImage" src="assets/chapter-01.webp" alt="Chapter 1 illustration" decoding="async">
+    <div class="chapter-image-description" id="chapterImageDescription"><p id="chapterStickySubtitle">Observing the Armies on the Battlefield</p></div>
     <div class="chapter-image-chapter-select" id="chapterSelectShell">
       <div class="chapter-select-copy" aria-hidden="true">
         <span class="chapter-select-kicker">CHAPTER <b id="chapterSelectNumber">01</b></span>
@@ -152,9 +187,7 @@
 
     </div>
   </div>
-  <div class="chapter-under-image">
-    <p id="chapterStickySubtitle">Observing the Armies on the Battlefield</p>
-  </div>
+
 </div>
 <div class="search-wrap hidden" id="chapterSearchPanel"><span>⌕</span><input id="searchInput" placeholder="Search a verse, word or idea…" autocomplete="off"><button id="clearSearch" aria-label="Clear search">×</button></div>
 <div class="filter-row filter-tabs icon-hidden-controls"><button class="filter active" data-filter="all">All verses</button><button class="filter" data-filter="unread">Unread</button><button class="filter" data-filter="read">Read</button><button class="filter" data-filter="fav">♥ Favourites</button></div>
@@ -168,7 +201,16 @@
 <section id="favoritesView" class="view"><div class="page-heading"><span class="eyebrow">SAVED BY YOU</span><h1>Favourites</h1><p>Verses you want to return to.</p></div><div class="search-wrap page-search"><span>⌕</span><input id="savedSearch" placeholder="Search saved verses…" autocomplete="off"><button type="button" data-clear-search="savedSearch" aria-label="Clear search">×</button></div><div id="favoriteList" class="verse-list"></div></section>
 <section id="notesView" class="view"><div class="page-heading"><span class="eyebrow">YOUR PERSONAL JOURNAL</span><h1>My notes</h1><p>Thoughts and attachments saved alongside verses.</p></div><div class="search-wrap page-search"><span>⌕</span><input id="notesSearch" placeholder="Search notes…" autocomplete="off"><button type="button" data-clear-search="notesSearch" aria-label="Clear search">×</button></div><div id="notesList" class="notes-list"></div></section>
 <section id="progressView" class="view"><div class="page-heading"><span class="eyebrow">YOUR PRACTICE</span><h1>Reading journey</h1><p>A little wisdom each day adds up.</p></div><div class="progress-card"><div class="big-progress"><strong id="bigPct">0%</strong><span>complete</span></div><div class="progress-track"><i id="bigBar"></i></div><div class="progress-meta"><span id="bigRead">0 of 700 verses read</span><span id="bigLeft">700 remaining</span></div></div><div id="chapterProgress" class="chapter-progress"></div></section>
-</main>
+</main>\n<div class="wisdom-widget-modal" id="wisdomWidgetModal" aria-hidden="true">
+  <div class="wisdom-widget-panel" role="dialog" aria-modal="true" aria-labelledby="wisdomWidgetTitle">
+    <div class="wisdom-widget-head"><div><span class="eyebrow">THE SONG OF THE SUPREME</span><h2 id="wisdomWidgetTitle">Wisdom for every day</h2></div><button type="button" id="wisdomWidgetClose" aria-label="Close">×</button></div>
+    <div class="wisdom-widget-quote"><span class="wisdom-widget-mark">“</span><p id="wisdomText" class="hero-quote-text medium">The wise lament for neither the living nor the dead.</p><button class="hero-quote-source" id="wisdomSource" type="button">Śrī Kṛṣṇa · Bhagavad-gītā 2.11</button></div>
+    <button type="button" class="wisdom-next" id="wisdomNext">Show another teaching ↻</button>
+  </div>
+</div>
+<button type="button" class="floating-wisdom" id="wisdomWidgetOpen" aria-label="Open daily wisdom" title="Daily wisdom">ॐ</button>
+<button type="button" class="floating-ask-krishna" id="askKrishnaFloating" aria-label="Ask Krishna" title="Ask Krishna">✦</button>
+
 <nav class="bottom-nav"><button class="nav-item active" data-view="homeView"><span>⌂</span><small>Home</small></button><button class="nav-item" data-view="chaptersView"><span>▤</span><small>Chapters</small></button><button class="nav-item" data-view="favoritesView"><span>♡</span><small>Saved</small></button><button class="nav-item" data-view="notesView"><span>✎</span><small>Notes</small></button><button class="nav-item" data-view="progressView"><span>◔</span><small>Progress</small></button></nav>
 <div id="toast" class="toast"></div>
 <div id="menuSheet" class="sheet hidden"><div class="sheet-inner"><div class="sheet-handle"></div><h3>GitaPath</h3><p>All your reading progress, notes and attachments stay on this device.</p><button id="aboutBtn" class="sheet-action">About this edition</button><button id="resetBtn" class="sheet-action danger">Reset reading progress and favourites</button><button id="closeSheet" class="sheet-close">Close</button></div></div>
@@ -301,9 +343,16 @@ function showRandomWisdom(){
   setTimeout(()=>{textEl.textContent=value;textEl.classList.remove('short','medium','long');const n=value.length;textEl.classList.add(n<180?'short':n<360?'medium':'long');sourceEl.textContent=pick.speaker+' · Bhagavad-gītā '+pick.id;textEl.classList.remove('fade');},130);
 }
 function setupWisdomRotation(){
-  const hero=document.getElementById('wisdomHero');if(!hero||wisdomObserver)return;
-  wisdomObserver=new IntersectionObserver(entries=>{for(const entry of entries){if(entry.isIntersecting&&entry.intersectionRatio>=.35)showRandomWisdom();}},{threshold:[.35]});
-  wisdomObserver.observe(hero);
+  const open=document.getElementById('wisdomWidgetOpen');
+  if(open&&!open.dataset.bound){open.dataset.bound='1';open.addEventListener('click',()=>{const m=document.getElementById('wisdomWidgetModal');m.classList.add('open');m.setAttribute('aria-hidden','false');showRandomWisdom();});}
+  const close=document.getElementById('wisdomWidgetClose');
+  if(close&&!close.dataset.bound){close.dataset.bound='1';close.addEventListener('click',()=>{const m=document.getElementById('wisdomWidgetModal');m.classList.remove('open');m.setAttribute('aria-hidden','true');});}
+  const modal=document.getElementById('wisdomWidgetModal');
+  if(modal&&!modal.dataset.bound){modal.dataset.bound='1';modal.addEventListener('click',e=>{if(e.target===modal){modal.classList.remove('open');modal.setAttribute('aria-hidden','true');}});}
+  const next=document.getElementById('wisdomNext');
+  if(next&&!next.dataset.bound){next.dataset.bound='1';next.addEventListener('click',showRandomWisdom);}
+  const ask=document.getElementById('askKrishnaFloating');
+  if(ask&&!ask.dataset.bound){ask.dataset.bound='1';ask.addEventListener('click',openAskKrishna);}
 }
 
 // Ask Krishna: offline topic matching over a curated set of verses spoken by Krishna only.
@@ -336,6 +385,7 @@ document.getElementById('askKrishnaOpen')?.addEventListener('click',openAskKrish
 document.getElementById('askKrishnaClose')?.addEventListener('click',closeAskKrishna);
 document.getElementById('askKrishnaModal')?.addEventListener('click',e=>{if(e.target.id==='askKrishnaModal')closeAskKrishna()});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAskKrishna()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){const w=document.getElementById('wisdomWidgetModal');if(w){w.classList.remove('open');w.setAttribute('aria-hidden','true')}}});
 document.getElementById('askKrishnaForm')?.addEventListener('submit',e=>{
  e.preventDefault();const q=document.getElementById('askKrishnaQuestion').value.trim();if(!q)return;
  const norm=q.toLowerCase().replace(/[^\p{L}\p{N}\s]/gu,' ');let best=null,bestScore=0;
