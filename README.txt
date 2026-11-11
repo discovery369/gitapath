@@ -1,17 +1,10 @@
-GitaPath chapter spotlight update — v28
+GitaPath full-width chapter artwork update — v29
 
-Files to replace in the GitHub repository root:
-- index.html
-- sw.js
+Replace the root-level index.html and sw.js in the GitHub main branch.
+The selected chapter artwork now spans the full browser viewport width, edge to edge.
+The image uses a 16:9 frame with cover sizing and no small max-height cap.
+The chapter selector and subtitle remain in the sticky chapter panel.
+Service-worker cache version: gitapath-offline-v29.
 
-What changed:
-- Explore the verses now displays only one selected chapter at a time.
-- A chapter dropdown replaces the horizontal row of all chapter chips.
-- The selected chapter's 16:9 artwork is shown in a sticky panel.
-- The artwork panel stays pinned below the app header while the verse list scrolls.
-- Selecting a different chapter updates the artwork, title, and verse list.
-- Service-worker cache version is bumped to v28.
-
-Keep the existing assets folder and all 18 chapter-XX.webp files in place.
-Do not upload the empty assets folder from this ZIP over your existing assets.
-After committing index.html and sw.js, wait for GitHub Pages deployment, then refresh the site.
+Keep the existing assets folder and all chapter-01.webp through chapter-18.webp files.
+After committing both files, wait for GitHub Pages deployment and refresh GitaPath.
