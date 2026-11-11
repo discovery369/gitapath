@@ -1,8 +1,8 @@
-/* GitaPath service worker — v27
+/* GitaPath service worker — v28
  * Forces a fresh fetch of the app shell and all 18 chapter illustrations
  * during installation, then keeps them available for offline use.
  */
-const CACHE_NAME = 'gitapath-offline-v27';
+const CACHE_NAME = 'gitapath-offline-v28';
 const CHAPTER_ART = Array.from(
   { length: 18 },
   (_, i) => `./assets/chapter-${String(i + 1).padStart(2, '0')}.webp`

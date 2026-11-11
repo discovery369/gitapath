@@ -1,19 +1,17 @@
-GitaPath cache refresh — v27
+GitaPath chapter spotlight update — v28
 
-Upload/replace these two files in the ROOT of your GitHub repository (main branch):
-  index.html
-  sw.js
+Files to replace in the GitHub repository root:
+- index.html
+- sw.js
 
-Keep your existing assets folder and its images unchanged. The app expects:
-  assets/chapter-01.webp through assets/chapter-18.webp
+What changed:
+- Explore the verses now displays only one selected chapter at a time.
+- A chapter dropdown replaces the horizontal row of all chapter chips.
+- The selected chapter's 16:9 artwork is shown in a sticky panel.
+- The artwork panel stays pinned below the app header while the verse list scrolls.
+- Selecting a different chapter updates the artwork, title, and verse list.
+- Service-worker cache version is bumped to v28.
 
-The index.html is included unchanged from the supplied v26 project because its
-chapter image paths already match the filenames shown in your GitHub screenshot.
-The actual fix is in sw.js: cache version v27 and a forced fresh fetch of the
-app shell and all 18 illustrations during service-worker installation.
-
-After committing both files, wait for GitHub Pages deployment to finish. Then
-open the site in Chrome and refresh. If the old artwork remains, close all
-GitaPath tabs, reopen the site, and refresh once more so the v27 service worker
-can take control. The next successful load should also have the artwork cached
-for offline use.
+Keep the existing assets folder and all 18 chapter-XX.webp files in place.
+Do not upload the empty assets folder from this ZIP over your existing assets.
+After committing index.html and sw.js, wait for GitHub Pages deployment, then refresh the site.
