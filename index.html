@@ -22,6 +22,22 @@
 @keyframes verseTurnNext{0%{opacity:.55;transform:translateX(34px) rotateY(-9deg)}100%{opacity:1;transform:translateX(0) rotateY(0)}}
 @keyframes verseTurnPrev{0%{opacity:.55;transform:translateX(-34px) rotateY(9deg)}100%{opacity:1;transform:translateX(0) rotateY(0)}}
 @media(prefers-reduced-motion:reduce){#detailContent.page-turn-next,#detailContent.page-turn-prev{animation:none}}
+
+/* Translucent chapter-art controls */
+.chapter-sticky{padding:8px 8px 0}
+.chapter-sticky-heading{margin-bottom:5px}
+.chapter-sticky-heading span{display:none}
+.chapter-sticky-image-wrap{isolation:isolate}
+.chapter-image-tools{position:absolute;right:12px;bottom:12px;z-index:3;display:flex;align-items:center;gap:6px;padding:6px;border:1px solid rgba(255,255,255,.34);border-radius:999px;background:rgba(20,37,31,.22);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);box-shadow:0 3px 14px rgba(0,0,0,.12)}
+.image-tool{width:34px;height:34px;display:grid;place-items:center;padding:7px;border:1px solid rgba(255,255,255,.3);border-radius:50%;background:rgba(255,255,255,.18);color:rgba(255,255,255,.88);opacity:.78;cursor:pointer;transition:background .18s,opacity .18s,transform .18s}
+.image-tool svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.image-tool svg .read-page{fill:rgba(120,190,139,.72);stroke:rgba(255,255,255,.95)}
+.image-tool.active{opacity:1;background:rgba(255,255,255,.34);border-color:rgba(255,255,255,.62);color:#fff;box-shadow:0 0 0 1px rgba(255,255,255,.12)}
+.image-tool:active{transform:scale(.93)}
+.icon-hidden-controls{display:none!important}
+#chapterSearchPanel{margin:12px 0 14px}
+#chapterSearchPanel:not(.hidden){display:flex}
+@media(max-width:560px){.chapter-image-tools{right:10px;bottom:10px;gap:4px;padding:5px}.image-tool{width:31px;height:31px;padding:6px}.image-tool svg{width:19px;height:19px}}
 </style>
 </head>
 <body>
@@ -45,10 +61,27 @@
   <div class="chapter-sticky-image-wrap">
     <img id="chapterStickyImage" src="assets/chapter-01.webp" alt="Chapter 1 illustration" decoding="async">
     <div class="chapter-sticky-caption"><span id="chapterStickyNumber">CHAPTER 01</span><strong id="chapterStickyTitle">Sainya-Darśana</strong></div>
+    <div class="chapter-image-tools" role="group" aria-label="Verse tools">
+      <button type="button" class="image-tool active" data-image-filter="all" aria-label="All verses" title="All verses">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5c0-.8.7-1.5 1.5-1.5H19v15H5.5A1.5 1.5 0 0 1 4 17.5z"/><path d="M4 6h13M7 8.5h9M7 11.5h9"/></svg>
+      </button>
+      <button type="button" class="image-tool" data-image-filter="read" aria-label="Read verses" title="Read">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path class="read-page" d="M12 6.5C9.5 4.7 6.4 4.2 3 5v13c3.4-.8 6.5-.3 9 1.5z"/><path d="M12 6.5C14.5 4.7 17.6 4.2 21 5v13c-3.4-.8-6.5-.3-9 1.5zM12 6.5v13"/></svg>
+      </button>
+      <button type="button" class="image-tool" data-image-filter="unread" aria-label="Unread verses" title="Unread">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.5C9.5 4.7 6.4 4.2 3 5v13c3.4-.8 6.5-.3 9 1.5zM12 6.5C14.5 4.7 17.6 4.2 21 5v13c-3.4-.8-6.5-.3-9 1.5zM12 6.5v13"/></svg>
+      </button>
+      <button type="button" class="image-tool" data-image-filter="fav" aria-label="Favourite verses" title="Favourites">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 8.8c0 5-8.8 10.2-8.8 10.2S3.2 13.8 3.2 8.8A4.2 4.2 0 0 1 12 6.7a4.2 4.2 0 0 1 8.8 2.1z"/></svg>
+      </button>
+      <button type="button" class="image-tool" id="imageSearchToggle" aria-label="Search verses" title="Search">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.6"/><path d="m16 16 4.5 4.5"/></svg>
+      </button>
+    </div>
   </div>
 </div>
-<div class="search-wrap"><span>⌕</span><input id="searchInput" placeholder="Search a verse, word or idea…" autocomplete="off"><button id="clearSearch" aria-label="Clear search">×</button></div>
-<div class="filter-row filter-tabs"><button class="filter active" data-filter="all">All verses</button><button class="filter" data-filter="unread">Unread</button><button class="filter" data-filter="read">Read</button><button class="filter" data-filter="fav">♥ Favourites</button></div>
+<div class="search-wrap hidden" id="chapterSearchPanel"><span>⌕</span><input id="searchInput" placeholder="Search a verse, word or idea…" autocomplete="off"><button id="clearSearch" aria-label="Clear search">×</button></div>
+<div class="filter-row filter-tabs icon-hidden-controls"><button class="filter active" data-filter="all">All verses</button><button class="filter" data-filter="unread">Unread</button><button class="filter" data-filter="read">Read</button><button class="filter" data-filter="fav">♥ Favourites</button></div>
 <div class="list-heading"><span id="resultLabel">CHAPTER 1 · VERSES</span><span id="resultCount">46</span></div>
 <div id="verseList" class="verse-list"></div>
 <div id="emptyState" class="empty-state hidden">No verses found. Try another search.</div>
@@ -151,7 +184,10 @@ async function getAttachments(id){let all=await getAllAttachments();return all.f
 async function loadAttachments(id){let box=$('#attachmentList');if(!box)return;let files=await getAttachments(id);box.innerHTML=files.map(f=>`<div class="file-chip"><span>📎 ${esc(f.name)} <small>(${(f.size/1024/1024).toFixed(2)} MB)</small></span><span><button data-download="${esc(f.key)}" title="Download">↓</button><button data-delete="${esc(f.key)}" title="Remove">×</button></span></div>`).join('')||'<span class="save-status">No files attached yet.</span>';box.querySelectorAll('[data-download]').forEach(b=>b.onclick=()=>downloadAttachment(b.dataset.download));box.querySelectorAll('[data-delete]').forEach(b=>b.onclick=()=>deleteAttachment(b.dataset.delete,id))}
 async function downloadAttachment(key){let d=await db(),f=await new Promise(res=>{let r=d.transaction('files','readonly').objectStore('files').get(key);r.onsuccess=()=>res(r.result)});if(!f)return;if(window.AndroidFiles&&window.AndroidFiles.saveBase64){let reader=new FileReader();reader.onload=()=>{let raw=String(reader.result).split(',')[1]||'';window.AndroidFiles.saveBase64(f.name,f.type||'application/octet-stream',raw)};reader.readAsDataURL(f.blob);return}let url=URL.createObjectURL(f.blob),a=document.createElement('a');a.href=url;a.download=f.name;a.click();setTimeout(()=>URL.revokeObjectURL(url),2000)}
 async function deleteAttachment(key,id){let d=await db();await new Promise(res=>{let t=d.transaction('files','readwrite');t.objectStore('files').delete(key);t.oncomplete=res});loadAttachments(id);toast('Attachment removed')}
-$('#searchInput').addEventListener('input',renderList);$('#clearSearch').onclick=()=>{$('#searchInput').value='';renderList()};$$('.filter').forEach(b=>b.onclick=()=>{activeFilter=b.dataset.filter;$$('.filter').forEach(x=>x.classList.toggle('active',x===b));renderList()});$('#continueBtn').onclick=()=>{let next=verses.find(v=>!isRead(v.id))||verses[0];selectedChapter=next.chapter;renderChips();renderList();openVerse(next.id)};$('#allChaptersBtn').onclick=()=>setView('chaptersView');$('#backBtn').onclick=()=>{if(history.state?.gitapathDetail)history.back();else restorePreviousView()};$('#detailFav').onclick=()=>currentVerse&&toggleFav(currentVerse.id);$('#detailReadToggle').onclick=()=>currentVerse&&toggleReadState(currentVerse.id);$('#homeBtn').onclick=()=>setView('homeView');$$('.nav-item').forEach(b=>b.onclick=()=>setView(b.dataset.view));$('#menuBtn').onclick=()=>$('#menuSheet').classList.remove('hidden');$('#closeSheet').onclick=()=>$('#menuSheet').classList.add('hidden');$('#aboutBtn').onclick=()=>{alert('GitaPath is an offline reader built from the Bhagavad-gītā PDF you supplied. English translations and chapter reflections are reproduced from that edition. Notes, reading progress, favourites and attachments remain on this device.');$('#menuSheet').classList.add('hidden')};$('#resetBtn').onclick=()=>{if(confirm('Clear read markers and favourites? Your notes and attachments will remain.')){state.read=[];state.fav=[];saveState();renderList();renderFavorites();renderProgress();toast('Progress and favourites cleared')}$('#menuSheet').classList.add('hidden')};
+$('#searchInput').addEventListener('input',renderList);$('#clearSearch').onclick=()=>{$('#searchInput').value='';renderList()};$$('.filter').forEach(b=>b.onclick=()=>{activeFilter=b.dataset.filter;$$('.filter').forEach(x=>x.classList.toggle('active',x===b));renderList()});
+$$('[data-image-filter]').forEach(b=>b.addEventListener('click',()=>{const f=b.dataset.imageFilter;activeFilter=f;$$('[data-image-filter]').forEach(x=>x.classList.toggle('active',x===b));$$('.filter').forEach(x=>x.classList.toggle('active',x.dataset.filter===f));renderList()}));
+$('#imageSearchToggle').addEventListener('click',()=>{const panel=$('#chapterSearchPanel');panel.classList.toggle('hidden');if(!panel.classList.contains('hidden'))$('#searchInput').focus()});
+$('#continueBtn').onclick=()=>{let next=verses.find(v=>!isRead(v.id))||verses[0];selectedChapter=next.chapter;renderChips();renderList();openVerse(next.id)};$('#allChaptersBtn').onclick=()=>setView('chaptersView');$('#backBtn').onclick=()=>{if(history.state?.gitapathDetail)history.back();else restorePreviousView()};$('#detailFav').onclick=()=>currentVerse&&toggleFav(currentVerse.id);$('#detailReadToggle').onclick=()=>currentVerse&&toggleReadState(currentVerse.id);$('#homeBtn').onclick=()=>setView('homeView');$$('.nav-item').forEach(b=>b.onclick=()=>setView(b.dataset.view));$('#menuBtn').onclick=()=>$('#menuSheet').classList.remove('hidden');$('#closeSheet').onclick=()=>$('#menuSheet').classList.add('hidden');$('#aboutBtn').onclick=()=>{alert('GitaPath is an offline reader built from the Bhagavad-gītā PDF you supplied. English translations and chapter reflections are reproduced from that edition. Notes, reading progress, favourites and attachments remain on this device.');$('#menuSheet').classList.add('hidden')};$('#resetBtn').onclick=()=>{if(confirm('Clear read markers and favourites? Your notes and attachments will remain.')){state.read=[];state.fav=[];saveState();renderList();renderFavorites();renderProgress();toast('Progress and favourites cleared')}$('#menuSheet').classList.add('hidden')};
 
 let deferredInstallPrompt=null;
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstallPrompt=e;$('#installBtn')?.classList.remove('hidden');});
