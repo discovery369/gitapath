@@ -1,18 +1,19 @@
-GitaPath v26 — Chapter artwork fit correction
+GitaPath cache refresh — v27
 
-This update preserves all 18 chapter illustrations and the existing app features.
+Upload/replace these two files in the ROOT of your GitHub repository (main branch):
+  index.html
+  sw.js
 
-Image display improvements:
-- Verse detail artwork now uses a 16:9 frame and object-fit: contain.
-- Chapter-card artwork uses the same 16:9 contain treatment.
-- Artwork is no longer cropped or stretched; the full illustration remains visible.
-- Soft cream background fills any unused space around artwork.
+Keep your existing assets folder and its images unchanged. The app expects:
+  assets/chapter-01.webp through assets/chapter-18.webp
 
-GitHub Pages update:
-1. Extract this ZIP.
-2. Replace index.html and sw.js in the repository root.
-3. Upload/replace the complete assets folder, including all 18 chapter-XX.webp files.
-4. Commit changes to main.
-5. Open the site once online, then close and reopen the installed PWA.
+The index.html is included unchanged from the supplied v26 project because its
+chapter image paths already match the filenames shown in your GitHub screenshot.
+The actual fix is in sw.js: cache version v27 and a forced fresh fetch of the
+app shell and all 18 illustrations during service-worker installation.
 
-The ZIP includes index.html, sw.js, README.txt and assets/.
+After committing both files, wait for GitHub Pages deployment to finish. Then
+open the site in Chrome and refresh. If the old artwork remains, close all
+GitaPath tabs, reopen the site, and refresh once more so the v27 service worker
+can take control. The next successful load should also have the artwork cached
+for offline use.
