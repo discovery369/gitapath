@@ -1,16 +1,14 @@
-GitaPath homepage layout update — v36
+GitaPath chapter description and glass backdrop update — v37
 
 Replace index.html and sw.js in the GitHub repository root.
 Keep the existing assets/ folder and all 18 chapter-XX.webp images.
 
 Changes:
-- Reduced the image toolbar width to about half its previous width.
-- Reduced the chapter selector width by about one-third from its previous width.
-- Removed the large Wisdom hero section from the homepage.
-- Added a floating Wisdom widget button; tapping it opens a compact daily-wisdom panel with a verse source link and a next-teaching control.
-- Added a floating Ask Krishna button at the bottom-right above the bottom navigation.
-- Moved the translucent chapter description into the bottom of the chapter image as an image-attached gradient overlay. No separate description strip remains between image and verse list.
-- Preserved existing verse list and other page functions.
-- Service-worker cache bumped to v36.
+- Chapter description is displayed below the chapter image again.
+- Description sits in a translucent glass-style panel with blur and a subtle border/shadow.
+- Chapter image has a translucent glass-style backing panel, visible around the contained image.
+- Removed the description overlay from the artwork itself.
+- Preserved the compact selector, toolbar, floating Wisdom widget and floating Ask Krishna button.
+- Service-worker cache bumped to v37.
 
-The app script passed Node syntax validation. Live Android/PWA interaction testing remains necessary.
+JavaScript is unchanged in this update.
