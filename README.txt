@@ -1,15 +1,15 @@
-GitaPath v43 — image overlay and refresh restoration
+GitaPath v44 — pin the verse image while scrolling
 
-Fixes:
-1. Previous/Next Description controls are forced to render as an overlay inside the chapter image at its bottom edge. The image wrapper is explicitly a positioned, clipped 16:9 block and the navigation is absolutely positioned within it.
-2. The app saves the active view, verse ID, and page scroll position in sessionStorage. Refreshing the same browser tab restores the open verse and approximate reading position instead of returning to Home.
-3. Service-worker cache name is explicitly set to gitapath-offline-v43.
+Fix:
+- v43 forced the chapter image wrapper to position:relative!important. That prevented the image from remaining pinned.
+- v44 changes the image wrapper to position:sticky!important with a top offset below the app header and the All verses control row.
+- Previous/Next controls remain absolutely overlaid at the bottom edge of the image.
+- Service-worker cache is explicitly gitapath-offline-v44.
 
 Install:
-- Replace index.html and sw.js in the GitHub repository root.
-- Keep assets/ unchanged.
-- Commit/push to main, then reload the site. If an older cached build persists, clear the site's cached data once.
+Replace index.html and sw.js in the GitHub repository root (main branch). Keep assets/ unchanged. Commit both files directly to main.
 
-Notes:
-- Session restoration is per browser tab/session on the same device. It does not sync between devices.
-- Syntax/markup checks are performed on the package; final visual behaviour must be confirmed in Chrome on your phone.
+After deployment, clear site data once if the old cached version remains.
+
+Validation:
+The exact v43 CSS conflict was located and patched. JavaScript was not changed. Actual sticky positioning still needs confirmation in Chrome Android because the browser's scroll container and header geometry affect sticky offsets.

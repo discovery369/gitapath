@@ -273,11 +273,13 @@
  #detailView .description-step strong{font-size:9px}
 }
 
-/* v43: harden bottom-of-image navigation overlay */
+/* v44: pin chapter image while scrolling; keep pager overlaid */
 #detailView #detailContent .detail-art{
- display:block!important;position:relative!important;overflow:hidden!important;
+ display:block!important;position:sticky!important;
+ top:calc(var(--detail-sticky-top,56px) + 82px)!important;
+ z-index:18!important;overflow:hidden!important;
  width:100%;height:auto;aspect-ratio:16/9;margin:0 0 18px!important;
- isolation:isolate
+ isolation:isolate;background:var(--paper,#f7f5ef)
 }
 #detailView #detailContent .detail-art>img{
  position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center
