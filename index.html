@@ -189,6 +189,58 @@
     margin-left:-7.5%;
   }
 }
+
+/* v39 polished translucent interactions */
+.chapter-image-chapter-select select{
+ background:rgba(255,255,255,.08)!important;
+ color:#fff!important;
+ color-scheme:dark;
+ border-radius:999px;
+}
+.chapter-image-chapter-select select option{
+ background:#263f36!important;color:#fff!important;
+}
+.image-continue-btn{
+ position:absolute;left:calc(33.333% + 1px);bottom:12px;z-index:4;
+ width:calc(22% - 14px);height:36px;display:flex;align-items:center;justify-content:center;gap:5px;
+ padding:4px 8px;border:1px solid rgba(255,255,255,.36);border-radius:999px;
+ color:rgba(255,255,255,.96);font:700 9px/1.1 'DM Sans',sans-serif;
+ background:rgba(255,255,255,.18);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+ box-shadow:0 3px 12px rgba(0,0,0,.1);cursor:pointer;white-space:nowrap
+}
+.image-continue-btn span{font-size:13px}
+.chapter-image-tools{width:calc(25% - 18px);height:36px}
+.floating-ask-krishna svg{width:29px;height:29px;display:block}
+.detail-description-pager{
+ display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;
+ margin:10px 0 18px;align-items:stretch
+}
+.description-step{
+ width:100%;min-width:0;min-height:58px;display:flex;align-items:center;gap:9px;
+ justify-content:space-between;padding:9px 12px;border:1px solid rgba(255,255,255,.58);
+ border-radius:14px;background:rgba(224,231,220,.42);backdrop-filter:blur(10px);
+ -webkit-backdrop-filter:blur(10px);color:var(--ink);text-align:left;cursor:pointer
+}
+.description-step:disabled{opacity:.42;cursor:default}
+.description-step small{display:block;font:800 8px/1.2 'DM Sans',sans-serif;letter-spacing:.12em;color:var(--muted);margin-bottom:4px}
+.description-step strong{display:block;font:600 11px/1.25 'DM Sans',sans-serif;overflow-wrap:anywhere}
+.pager-arrow{font:28px/1 Georgia,serif;color:var(--green2);flex:0 0 auto}
+.description-step-next{min-width:0;display:flex;flex-direction:column;justify-content:center;gap:4px}
+.chapter-end-label{font:800 8px/1.2 'DM Sans',sans-serif;letter-spacing:.1em;color:var(--gold);padding-left:3px}
+.detail-nav,.detail-head,.detail-section,.note-item,.chapter-card,.verse-card,.search-wrap,.page-heading,.progress-card,.settings-card{
+ background:rgba(255,255,255,.42);
+ backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)
+}
+@media(max-width:560px){
+ .image-continue-btn{left:calc(33.333% + 1px);bottom:8px;width:calc(22% - 12px);height:31px;padding:2px 4px;font-size:7px;gap:2px}
+ .image-continue-btn span{font-size:10px}
+ .chapter-image-tools{height:31px}
+ .detail-description-pager{gap:6px;margin:8px 0 14px}
+ .description-step{min-height:54px;padding:7px 8px;gap:4px;border-radius:11px}
+ .description-step small{font-size:7px}.description-step strong{font-size:9px}.pager-arrow{font-size:22px}
+ .chapter-end-label{font-size:7px}
+ .floating-ask-krishna svg{width:26px;height:26px}
+}
 </style>
 </head>
 <body>
@@ -197,7 +249,7 @@
 <div id="languageStatus" class="language-status" role="status" aria-live="polite"><strong>English selected.</strong> Other language translations are being prepared for offline use.</div>
 <main id="main">
 <section id="homeView" class="view active">
-<div class="home-continue-row"><button class="primary-btn" id="continueBtn">Continue reading <span>→</span></button></div>
+
 <div class="chapter-sticky" id="chapterSticky">
   <div class="chapter-sticky-image-wrap">
     <img id="chapterStickyImage" src="assets/chapter-01.webp" alt="Chapter 1 illustration" decoding="async">
@@ -210,6 +262,7 @@
       <span class="chapter-select-chevron" aria-hidden="true">⌄</span>
       <select id="chapterSelect" aria-label="Select chapter"></select>
     </div>
+    <button class="image-continue-btn" id="continueBtn" type="button">Continue reading <span>→</span></button>
     <div class="chapter-image-tools" role="group" aria-label="Verse tools">
       <button type="button" class="image-tool active" data-image-filter="all" aria-label="All verses" title="All verses">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5c0-.8.7-1.5 1.5-1.5H19v15H5.5A1.5 1.5 0 0 1 4 17.5z"/><path d="M4 6h13M7 8.5h9M7 11.5h9"/></svg>
@@ -248,7 +301,7 @@
   </div>
 </div>
 <button type="button" class="floating-wisdom" id="wisdomWidgetOpen" aria-label="Open daily wisdom" title="Daily wisdom">ॐ</button>
-<button type="button" class="floating-ask-krishna" id="askKrishnaFloating" aria-label="Ask Krishna" title="Ask Krishna">✦</button>
+<button type="button" class="floating-ask-krishna" id="askKrishnaFloating" aria-label="Ask Krishna" title="Ask Krishna"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M18 36C20 27 19 18 14 7" fill="none" stroke="#f2d59a" stroke-width="2.2" stroke-linecap="round"/><path d="M14 7C5 5 3 15 10 21c5 4 11 1 12-5 1-5-3-8-8-9z" fill="#16805f" stroke="#f2d59a" stroke-width="1.2"/><path d="M14 9c-5 0-7 5-3 9 3 3 7 1 8-3 1-3-1-5-5-6z" fill="#2e8db0"/><ellipse cx="14" cy="13" rx="3.1" ry="4.2" fill="#1c426b"/><ellipse cx="14" cy="13" rx="1.6" ry="2.5" fill="#d8bd62"/><path d="M18 35c4-5 7-10 9-16" fill="none" stroke="#e8c994" stroke-width="1.2" stroke-linecap="round"/></svg></button>
 
 <nav class="bottom-nav"><button class="nav-item active" data-view="homeView"><span>⌂</span><small>Home</small></button><button class="nav-item" data-view="chaptersView"><span>▤</span><small>Chapters</small></button><button class="nav-item" data-view="favoritesView"><span>♡</span><small>Saved</small></button><button class="nav-item" data-view="notesView"><span>✎</span><small>Notes</small></button><button class="nav-item" data-view="progressView"><span>◔</span><small>Progress</small></button></nav>
 <div id="toast" class="toast"></div>
@@ -303,8 +356,8 @@ let detailReturnState=null;
 function restorePreviousView(){if(!detailReturnState)return;const prev=detailReturnState;detailReturnState=null;selectedChapter=prev.selectedChapter;activeFilter=prev.activeFilter;$$('.filter').forEach(x=>x.classList.toggle('active',x.dataset.filter===activeFilter));renderChips();if(prev.view==='homeView')renderList();else if(prev.view==='favoritesView')renderFavorites();else if(prev.view==='notesView')renderNotes();else if(prev.view==='progressView')renderProgress();setView(prev.view);requestAnimationFrame(()=>window.scrollTo(0,prev.scrollY||0));}
 window.addEventListener('popstate',()=>{if(detailReturnState)restorePreviousView()});
 if(!history.state?.gitapathBase){history.replaceState({gitapathBase:true},'',location.href);}
-function openVerse(id,swipeDirection=null){let v=verses.find(x=>x.id===id);if(!v)return;if(!swipeDirection){detailReturnState={view:$$('.view').find(x=>x.classList.contains('active'))?.id||'homeView',scrollY:window.scrollY,selectedChapter,activeFilter};history.pushState({gitapathDetail:true,verseId:id},'',location.pathname+location.search+'#verse-'+encodeURIComponent(id));}else{history.replaceState({gitapathDetail:true,verseId:id},'',location.pathname+location.search+'#verse-'+encodeURIComponent(id));}currentVerse=v;syncReadControls();let c=chapterInfo(v.chapter);$('#detailFav').textContent=isFav(id)?'♥':'♡';let meaning=c.commentary||'No chapter reflection is included for this section in the source edition.';$('#detailContent').innerHTML=`<div class="detail-head"><div class="eyebrow">CHAPTER ${v.chapter} · VERSE ${v.verse}</div><h1>${esc(chapterDisplayTitle(c))}</h1><p>${esc(selectedLanguage==='te'?'ఈ అధ్యాయంలోని శ్లోకాలు మరియు బోధనలు':c.subtitle)}</p></div><div class="detail-art"><img src="${chapterArtPath(v.chapter)}" alt="${esc(chapterDisplayTitle(c))} — chapter illustration" decoding="async"></div><section class="detail-section"><div class="section-label">SANSKRIT</div><p class="detail-sanskrit" lang="sa">${esc(v.sanskrit)}</p><p class="detail-translit" lang="te">${esc(verseTransliteration(v))}</p><div class="source-note">Sanskrit text reconstructed from this edition’s Roman transliteration because the PDF’s embedded Devanagari text encoding cannot be extracted reliably.</div></section><section class="detail-section"><div class="section-label">${esc(translationLanguageLabel().toUpperCase())} TRANSLATION</div><p class="detail-translation">${esc(verseTranslation(v))}</p>${v.grouped_passage?'<p class="edition-note">This edition prints this passage together with adjacent verse(s); the same combined text is shown for each verse in the group.</p>':''}</section><section class="detail-section"><div class="section-label">MEANING & REFLECTION · ANUVṚTTI</div><h3>From this chapter</h3><p class="commentary">${esc(meaning)}</p><p class="edition-note">The reflection above is the chapter commentary from the uploaded edition, not a separately written explanation for this individual verse.</p></section><section class="detail-section"><div class="section-label">YOUR PERSONAL SPACE</div><h3>Notes & attachments</h3><textarea id="verseNote" class="note-area" placeholder="Write your thoughts, questions or how this verse applies to your day…">${esc(state.notes[id]||'')}</textarea><div class="attach-row"><span class="save-status" id="noteStatus">Saved on this device</span><label class="attach-btn" for="filePicker">＋ Attach files</label><input id="filePicker" type="file" multiple hidden></div><div id="attachmentList" class="attach-list"></div></section><div class="edition-note">Text source: <em>Bhagavad-gītā – Śrī Kṛṣṇa’s Illuminations on the Perfection of Yoga</em>, translations by Swami Narasiṅgha and Swami Giri. The PDF identifies Gauranga Vani Publishers, © 2022.</div>`;
-setView('detailView');if(swipeDirection){let page=$('#detailContent');page.classList.remove('page-turn-next','page-turn-prev');void page.offsetWidth;page.classList.add(swipeDirection>0?'page-turn-next':'page-turn-prev');}loadAttachments(id);let note=$('#verseNote'),st=$('#noteStatus'),timer;note.addEventListener('input',()=>{st.textContent='Saving…';clearTimeout(timer);timer=setTimeout(()=>{state.notes[id]=note.value;saveState();st.textContent='Saved on this device'},250)});$('#filePicker').addEventListener('change',async e=>{for(const f of e.target.files){await addAttachment(id,f)}e.target.value='';loadAttachments(id)});}
+function openVerse(id,swipeDirection=null){let v=verses.find(x=>x.id===id);if(!v)return;if(!swipeDirection){detailReturnState={view:$$('.view').find(x=>x.classList.contains('active'))?.id||'homeView',scrollY:window.scrollY,selectedChapter,activeFilter};history.pushState({gitapathDetail:true,verseId:id},'',location.pathname+location.search+'#verse-'+encodeURIComponent(id));}else{history.replaceState({gitapathDetail:true,verseId:id},'',location.pathname+location.search+'#verse-'+encodeURIComponent(id));}currentVerse=v;syncReadControls();let c=chapterInfo(v.chapter);const verseIndex=verses.findIndex(x=>x.id===id),prevVerse=verseIndex>0?verses[verseIndex-1]:null,nextVerse=verseIndex>=0&&verseIndex<verses.length-1?verses[verseIndex+1]:null,chapterEnds=!nextVerse||nextVerse.chapter!==v.chapter,nextChapter=chapterEnds&&nextVerse?chapterInfo(nextVerse.chapter):null;$('#detailFav').textContent=isFav(id)?'♥':'♡';let meaning=c.commentary||'No chapter reflection is included for this section in the source edition.';const nextPager=chapterEnds?`<div class="chapter-end-label">END OF ${esc(chapterDisplayTitle(c)).toUpperCase()}</div>${nextVerse?`<button type="button" class="description-step next" id="nextDescription"><span><small>CONTINUE TO</small><strong>Chapter ${nextVerse.chapter} · ${esc(chapterDisplayTitle(nextChapter))}</strong></span><span class="pager-arrow">›</span></button>`:`<div class="chapter-end-label">END OF THE BHAGAVAD-GĪTĀ</div>`}`:`<button type="button" class="description-step next" id="nextDescription"><span><small>NEXT DESCRIPTION</small><strong>Chapter ${nextVerse.chapter} · Verse ${nextVerse.verse}</strong></span><span class="pager-arrow">›</span></button>`;$('#detailContent').innerHTML=`<div class="detail-head"><div class="eyebrow">CHAPTER ${v.chapter} · VERSE ${v.verse}</div><h1>${esc(chapterDisplayTitle(c))}</h1><p>${esc(selectedLanguage==='te'?'ఈ అధ్యాయంలోని శ్లోకాలు మరియు బోధనలు':c.subtitle)}</p></div><div class="detail-art"><img src="${chapterArtPath(v.chapter)}" alt="${esc(chapterDisplayTitle(c))} — chapter illustration" decoding="async"></div><div class="detail-description-pager"><button type="button" class="description-step previous" id="previousDescription" ${prevVerse?'':'disabled'}><span class="pager-arrow">‹</span><span><small>PREVIOUS</small><strong>${prevVerse?`Chapter ${prevVerse.chapter} · Verse ${prevVerse.verse}`:'Beginning'}</strong></span></button><div class="description-step-next">${nextPager}</div></div><section class="detail-section"><div class="section-label">SANSKRIT</div><p class="detail-sanskrit" lang="sa">${esc(v.sanskrit)}</p><p class="detail-translit" lang="te">${esc(verseTransliteration(v))}</p><div class="source-note">Sanskrit text reconstructed from this edition’s Roman transliteration because the PDF’s embedded Devanagari text encoding cannot be extracted reliably.</div></section><section class="detail-section"><div class="section-label">${esc(translationLanguageLabel().toUpperCase())} TRANSLATION</div><p class="detail-translation">${esc(verseTranslation(v))}</p>${v.grouped_passage?'<p class="edition-note">This edition prints this passage together with adjacent verse(s); the same combined text is shown for each verse in the group.</p>':''}</section><section class="detail-section"><div class="section-label">MEANING & REFLECTION · ANUVṚTTI</div><h3>From this chapter</h3><p class="commentary">${esc(meaning)}</p><p class="edition-note">The reflection above is the chapter commentary from the uploaded edition, not a separately written explanation for this individual verse.</p></section><section class="detail-section"><div class="section-label">YOUR PERSONAL SPACE</div><h3>Notes & attachments</h3><textarea id="verseNote" class="note-area" placeholder="Write your thoughts, questions or how this verse applies to your day…">${esc(state.notes[id]||'')}</textarea><div class="attach-row"><span class="save-status" id="noteStatus">Saved on this device</span><label class="attach-btn" for="filePicker">＋ Attach files</label><input id="filePicker" type="file" multiple hidden></div><div id="attachmentList" class="attach-list"></div></section><div class="edition-note">Text source: <em>Bhagavad-gītā – Śrī Kṛṣṇa’s Illuminations on the Perfection of Yoga</em>, translations by Swami Narasiṅgha and Swami Giri. The PDF identifies Gauranga Vani Publishers, © 2022.</div>`;
+const prevBtn=$('#previousDescription'),nextBtn=$('#nextDescription');if(prevBtn&&prevVerse)prevBtn.onclick=()=>openVerse(prevVerse.id, -1);if(nextBtn&&nextVerse)nextBtn.onclick=()=>openVerse(nextVerse.id, 1);setView('detailView');if(swipeDirection){let page=$('#detailContent');page.classList.remove('page-turn-next','page-turn-prev');void page.offsetWidth;page.classList.add(swipeDirection>0?'page-turn-next':'page-turn-prev');}loadAttachments(id);let note=$('#verseNote'),st=$('#noteStatus'),timer;note.addEventListener('input',()=>{st.textContent='Saving…';clearTimeout(timer);timer=setTimeout(()=>{state.notes[id]=note.value;saveState();st.textContent='Saved on this device'},250)});$('#filePicker').addEventListener('change',async e=>{for(const f of e.target.files){await addAttachment(id,f)}e.target.value='';loadAttachments(id)});}
 // Swipe left for the next verse; swipe right for the previous verse.
 (function bindDetailVerseSwipes(){
  const detail=$('#detailView');let touchStart=null;
