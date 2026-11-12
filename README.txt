@@ -1,17 +1,15 @@
-GitaPath v42 — verse navigation on image
+GitaPath v43 — image overlay and refresh restoration
 
-Change:
-- Moved Previous and Next Description controls inside the chapter artwork container.
-- The controls now appear as a translucent overlay along the bottom of the image.
-- Removed their separate sticky-row behaviour; the controls travel with the image.
-- Updated offline cache version to v42.
+Fixes:
+1. Previous/Next Description controls are forced to render as an overlay inside the chapter image at its bottom edge. The image wrapper is explicitly a positioned, clipped 16:9 block and the navigation is absolutely positioned within it.
+2. The app saves the active view, verse ID, and page scroll position in sessionStorage. Refreshing the same browser tab restores the open verse and approximate reading position instead of returning to Home.
+3. Cache version bumped to v43.
 
 Install:
-1. Extract this ZIP.
-2. Replace index.html and sw.js in the GitHub repository root.
-3. Keep the existing assets/ folder unchanged.
-4. Commit/push to main and reload the site in Chrome.
+- Replace index.html and sw.js in the GitHub repository root.
+- Keep assets/ unchanged.
+- Commit/push to main, then reload the site. If an older cached build persists, clear the site's cached data once.
 
-Validation:
-- The updated HTML structure was checked for the expected navigation placement.
-- Please verify the visual placement on your Android phone after deployment.
+Notes:
+- Session restoration is per browser tab/session on the same device. It does not sync between devices.
+- Syntax/markup checks are performed on the package; final visual behaviour must be confirmed in Chrome on your phone.

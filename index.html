@@ -272,6 +272,29 @@
  #detailView .description-step small{font-size:7px}
  #detailView .description-step strong{font-size:9px}
 }
+
+/* v43: harden bottom-of-image navigation overlay */
+#detailView #detailContent .detail-art{
+ display:block!important;position:relative!important;overflow:hidden!important;
+ width:100%;height:auto;aspect-ratio:16/9;margin:0 0 18px!important;
+ isolation:isolate
+}
+#detailView #detailContent .detail-art>img{
+ position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center
+}
+#detailView #detailContent .detail-art>.detail-description-pager{
+ position:absolute!important;left:8px!important;right:8px!important;bottom:8px!important;top:auto!important;
+ z-index:40!important;display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+ gap:7px;margin:0!important;padding:6px!important;
+ border:1px solid rgba(255,255,255,.72);border-radius:14px;
+ background:rgba(239,242,234,.86);backdrop-filter:blur(13px);
+ -webkit-backdrop-filter:blur(13px);box-shadow:0 4px 15px rgba(20,40,30,.18)
+}
+#detailView #detailContent .detail-art>.detail-description-pager .description-step{min-height:46px}
+@media(max-width:560px){
+ #detailView #detailContent .detail-art>.detail-description-pager{left:6px!important;right:6px!important;bottom:6px!important;gap:5px;padding:5px!important}
+ #detailView #detailContent .detail-art>.detail-description-pager .description-step{min-height:42px;padding:5px 7px}
+}
 </style>
 </head>
 <body>
@@ -362,7 +385,7 @@ function isRead(id){return state.read.includes(id)} function isFav(id){return st
 function syncReadControls(){const b=$('#detailReadToggle');if(b&&currentVerse)b.textContent=isRead(currentVerse.id)?'Mark unread':'Mark read';}
 function refreshReadViews(){renderList();renderChapters();renderProgress();if(currentVerse)syncReadControls();}
 function toast(s){const t=$('#toast');t.textContent=s;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),1900)}
-function setView(id){$$('.view').forEach(v=>v.classList.toggle('active',v.id===id));$$('.nav-item').forEach(v=>v.classList.toggle('active',v.dataset.view===id));if(id==='favoritesView')renderFavorites($('#savedSearch')?.value||'');if(id==='notesView')renderNotes($('#notesSearch')?.value||'');if(id==='chaptersView')renderChapters($('#chaptersSearch')?.value||'');if(id==='progressView')renderProgress();window.scrollTo(0,0)}
+function setView(id){try{sessionStorage.setItem('gitapath-view',id)}catch(e){} $$('.view').forEach(v=>v.classList.toggle('active',v.id===id));$$('.nav-item').forEach(v=>v.classList.toggle('active',v.dataset.view===id));if(id==='favoritesView')renderFavorites($('#savedSearch')?.value||'');if(id==='notesView')renderNotes($('#notesSearch')?.value||'');if(id==='chaptersView')renderChapters($('#chaptersSearch')?.value||'');if(id==='progressView')renderProgress();window.scrollTo(0,0)}
 function chapterInfo(n){return chapters.find(c=>c.number===n)||{title:`Chapter ${n}`,subtitle:''}}
 const TELUGU_CHAPTER_TITLES={1:'సైన్య దర్శన యోగం',2:'సాంఖ్య యోగం',3:'కర్మ యోగం',4:'జ్ఞాన యోగం',5:'కర్మ సన్యాస యోగం',6:'ధ్యాన యోగం',7:'జ్ఞాన విజ్ఞాన యోగం',8:'తారక బ్రహ్మ యోగం',9:'రాజ గుహ్య యోగం',10:'విభూతి యోగం',11:'విశ్వరూప దర్శన యోగం',12:'భక్తి యోగం',13:'ప్రకృతి పురుష వివేక యోగం',14:'గుణత్రయ విభాగ యోగం',15:'పురుషోత్తమ యోగం',16:'దైవాసుర సంపద్ విభాగ యోగం',17:'శ్రద్ధాత్రయ విభాగ యోగం',18:'మోక్ష యోగం'};
 function chapterDisplayTitle(ch){return selectedLanguage==='te'?(TELUGU_CHAPTER_TITLES[ch.number]||ch.title):ch.title}
@@ -387,6 +410,21 @@ let detailReturnState=null;
 function restorePreviousView(){if(!detailReturnState)return;const prev=detailReturnState;detailReturnState=null;selectedChapter=prev.selectedChapter;activeFilter=prev.activeFilter;$$('.filter').forEach(x=>x.classList.toggle('active',x.dataset.filter===activeFilter));renderChips();if(prev.view==='homeView')renderList();else if(prev.view==='favoritesView')renderFavorites();else if(prev.view==='notesView')renderNotes();else if(prev.view==='progressView')renderProgress();setView(prev.view);requestAnimationFrame(()=>window.scrollTo(0,prev.scrollY||0));}
 window.addEventListener('popstate',()=>{if(detailReturnState)restorePreviousView()});
 if(!history.state?.gitapathBase){history.replaceState({gitapathBase:true},'',location.href);}
+(function persistReadingPosition(){
+ let pending=false;
+ window.addEventListener('scroll',()=>{
+  if(pending)return;pending=true;
+  requestAnimationFrame(()=>{
+   pending=false;
+   try{
+    const active=$$('.view').find(v=>v.classList.contains('active'))?.id||'homeView';
+    const payload={view:active,scrollY:window.scrollY,verseId:currentVerse?.id||null};
+    sessionStorage.setItem('gitapath-position',JSON.stringify(payload));
+   }catch(e){}
+  });
+ },{passive:true});
+})();
+
 function openVerse(id,swipeDirection=null){let v=verses.find(x=>x.id===id);if(!v)return;if(!swipeDirection){detailReturnState={view:$$('.view').find(x=>x.classList.contains('active'))?.id||'homeView',scrollY:window.scrollY,selectedChapter,activeFilter};history.pushState({gitapathDetail:true,verseId:id},'',location.pathname+location.search+'#verse-'+encodeURIComponent(id));}else{history.replaceState({gitapathDetail:true,verseId:id},'',location.pathname+location.search+'#verse-'+encodeURIComponent(id));}currentVerse=v;syncReadControls();let c=chapterInfo(v.chapter);const verseIndex=verses.findIndex(x=>x.id===id),prevVerse=verseIndex>0?verses[verseIndex-1]:null,nextVerse=verseIndex>=0&&verseIndex<verses.length-1?verses[verseIndex+1]:null,chapterEnds=!nextVerse||nextVerse.chapter!==v.chapter,nextChapter=chapterEnds&&nextVerse?chapterInfo(nextVerse.chapter):null;$('#detailFav').textContent=isFav(id)?'♥':'♡';let meaning=c.commentary||'No chapter reflection is included for this section in the source edition.';const nextPager=chapterEnds?`<div class="chapter-end-label">END OF ${esc(chapterDisplayTitle(c)).toUpperCase()}</div>${nextVerse?`<button type="button" class="description-step next" id="nextDescription"><span><small>CONTINUE TO</small><strong>Chapter ${nextVerse.chapter} · ${esc(chapterDisplayTitle(nextChapter))}</strong></span><span class="pager-arrow">›</span></button>`:`<div class="chapter-end-label">END OF THE BHAGAVAD-GĪTĀ</div>`}`:`<button type="button" class="description-step next" id="nextDescription"><span><small>NEXT DESCRIPTION</small><strong>Chapter ${nextVerse.chapter} · Verse ${nextVerse.verse}</strong></span><span class="pager-arrow">›</span></button>`;$('#detailContent').innerHTML=`<div class="detail-head"><div class="eyebrow">CHAPTER ${v.chapter} · VERSE ${v.verse}</div><h1>${esc(chapterDisplayTitle(c))}</h1><p>${esc(selectedLanguage==='te'?'ఈ అధ్యాయంలోని శ్లోకాలు మరియు బోధనలు':c.subtitle)}</p></div><div class="detail-art"><img src="${chapterArtPath(v.chapter)}" alt="${esc(chapterDisplayTitle(c))} — chapter illustration" decoding="async"><div class="detail-description-pager"><button type="button" class="description-step previous" id="previousDescription" ${prevVerse?'':'disabled'}><span class="pager-arrow">‹</span><span><small>PREVIOUS</small><strong>${prevVerse?`Chapter ${prevVerse.chapter} · Verse ${prevVerse.verse}`:'Beginning'}</strong></span></button><div class="description-step-next">${nextPager}</div></div></div><section class="detail-section"><div class="section-label">SANSKRIT</div><p class="detail-sanskrit" lang="sa">${esc(v.sanskrit)}</p><p class="detail-translit" lang="te">${esc(verseTransliteration(v))}</p><div class="source-note">Sanskrit text reconstructed from this edition’s Roman transliteration because the PDF’s embedded Devanagari text encoding cannot be extracted reliably.</div></section><section class="detail-section"><div class="section-label">${esc(translationLanguageLabel().toUpperCase())} TRANSLATION</div><p class="detail-translation">${esc(verseTranslation(v))}</p>${v.grouped_passage?'<p class="edition-note">This edition prints this passage together with adjacent verse(s); the same combined text is shown for each verse in the group.</p>':''}</section><section class="detail-section"><div class="section-label">MEANING & REFLECTION · ANUVṚTTI</div><h3>From this chapter</h3><p class="commentary">${esc(meaning)}</p><p class="edition-note">The reflection above is the chapter commentary from the uploaded edition, not a separately written explanation for this individual verse.</p></section><section class="detail-section"><div class="section-label">YOUR PERSONAL SPACE</div><h3>Notes & attachments</h3><textarea id="verseNote" class="note-area" placeholder="Write your thoughts, questions or how this verse applies to your day…">${esc(state.notes[id]||'')}</textarea><div class="attach-row"><span class="save-status" id="noteStatus">Saved on this device</span><label class="attach-btn" for="filePicker">＋ Attach files</label><input id="filePicker" type="file" multiple hidden></div><div id="attachmentList" class="attach-list"></div></section><div class="edition-note">Text source: <em>Bhagavad-gītā – Śrī Kṛṣṇa’s Illuminations on the Perfection of Yoga</em>, translations by Swami Narasiṅgha and Swami Giri. The PDF identifies Gauranga Vani Publishers, © 2022.</div>`;
 const prevBtn=$('#previousDescription'),nextBtn=$('#nextDescription');if(prevBtn&&prevVerse)prevBtn.onclick=()=>openVerse(prevVerse.id, -1);if(nextBtn&&nextVerse)nextBtn.onclick=()=>openVerse(nextVerse.id, 1);setView('detailView');if(swipeDirection){let page=$('#detailContent');page.classList.remove('page-turn-next','page-turn-prev');void page.offsetWidth;page.classList.add(swipeDirection>0?'page-turn-next':'page-turn-prev');}loadAttachments(id);let note=$('#verseNote'),st=$('#noteStatus'),timer;note.addEventListener('input',()=>{st.textContent='Saving…';clearTimeout(timer);timer=setTimeout(()=>{state.notes[id]=note.value;saveState();st.textContent='Saved on this device'},250)});$('#filePicker').addEventListener('change',async e=>{for(const f of e.target.files){await addAttachment(id,f)}e.target.value='';loadAttachments(id)});}
 // Swipe left for the next verse; swipe right for the previous verse.
@@ -529,6 +567,19 @@ async function init(){try{
   else {const response=await fetch('verses.json');if(!response.ok)throw new Error('HTTP '+response.status);DATA=await response.json();}
   if(!DATA||!Array.isArray(DATA.verses)||!Array.isArray(DATA.chapters)||DATA.verses.length!==700)throw new Error('Verse data incomplete');
   verses=DATA.verses;chapters=DATA.chapters;renderChips();renderChapters();renderList();updateProgress();showRandomWisdom();setupWisdomRotation();startAppLocalization();
+  let savedPosition=null;try{savedPosition=JSON.parse(sessionStorage.getItem('gitapath-position')||'null')}catch(e){}
+  const hashMatch=location.hash.match(/^#verse-(.+)$/);
+  const savedVerseId=hashMatch?decodeURIComponent(hashMatch[1]):(savedPosition?.verseId||null);
+  if(savedVerseId&&verses.some(v=>v.id===savedVerseId)){
+   openVerse(savedVerseId,true);
+   requestAnimationFrame(()=>requestAnimationFrame(()=>window.scrollTo(0,Math.max(0,savedPosition?.scrollY||0))));
+  }else{
+   const savedView=savedPosition?.view||(()=>{try{return sessionStorage.getItem('gitapath-view')}catch(e){return null}})();
+   if(savedView&&document.getElementById(savedView)){
+    setView(savedView);
+    requestAnimationFrame(()=>window.scrollTo(0,Math.max(0,savedPosition?.scrollY||0)));
+   }
+  }
   if('serviceWorker'in navigator&&location.protocol!=='file:'&&location.protocol!=='content:')navigator.serviceWorker.register('sw.js').catch(()=>{});
 }catch(e){console.error('GitaPath data load failed:',e);document.querySelector('#homeView').innerHTML='<div class="empty-state">The verse library could not be loaded. Please use the latest GitaPath offline file.</div>'}}
 
