@@ -15,10 +15,10 @@
 
 .ask-krishna-wrap{display:flex;align-items:center;gap:10px;margin-top:14px;flex-wrap:wrap}.ask-krishna-btn{border:1px solid rgba(232,201,148,.8);border-radius:22px;padding:9px 14px;background:rgba(232,201,148,.13);color:#f2d6a7;font:700 11px 'DM Sans',sans-serif;cursor:pointer}.ask-krishna-wrap span{font-size:9px;color:rgba(255,248,235,.68)}.ask-modal{display:none;position:fixed;inset:0;z-index:30;background:rgba(12,24,19,.68);padding:18px;overflow:auto;align-items:center;justify-content:center}.ask-modal.open{display:flex}.ask-panel{width:min(100%,560px);max-height:92vh;overflow:auto;background:var(--paper);border-radius:20px;padding:22px;box-shadow:0 20px 70px #07140f88}.ask-panel-head{display:flex;justify-content:space-between;align-items:flex-start}.ask-panel-head h2{font:600 29px 'Playfair Display',Georgia,serif;margin:5px 0 0}.ask-close{border:0;background:var(--soft);color:var(--green);width:36px;height:36px;border-radius:50%;font-size:24px}.ask-intro{font-size:12px;line-height:1.65;color:#65736a;margin:14px 0}.ask-label{display:block;font-size:10px;font-weight:700;color:var(--green);margin:12px 0 7px}.ask-panel textarea{width:100%;border:1px solid var(--line);border-radius:12px;background:#fffefa;color:var(--ink);padding:13px;font:13px/1.6 'DM Sans',sans-serif;resize:vertical;outline-color:var(--gold)}.ask-submit{margin-top:10px;border:0;border-radius:22px;background:var(--green);color:#fff8eb;padding:12px 17px;font:700 11px 'DM Sans',sans-serif}.ask-submit span{padding-left:10px}.ask-result{margin-top:16px}.ask-result:empty{display:none}.ask-answer-card{background:#fffefa;border:1px solid var(--line);border-radius:14px;padding:15px;margin-top:12px}.ask-answer-label{font-size:9px;letter-spacing:.15em;color:var(--gold);font-weight:700;margin-bottom:7px}.ask-answer-card h3{font:600 18px 'Playfair Display',serif;margin:0 0 8px}.ask-answer-card p{font:12px/1.7 'Playfair Display',Georgia,serif;color:#48584d;margin:7px 0}.ask-verse-quote{font:14px/1.7 'Playfair Display',Georgia,serif;color:var(--ink);padding-left:12px;border-left:2px solid var(--gold)}.ask-verse-link{border:0;background:none;color:var(--green2);padding:5px 0;text-decoration:underline;font:700 10px 'DM Sans',sans-serif}.ask-footnote{font-size:9px;line-height:1.55;color:#8a9188;margin:14px 0 0}@media(max-width:560px){.ask-modal{padding:10px}.ask-panel{padding:18px;border-radius:17px;max-height:94vh}}
 /* Verse-detail horizontal page-turn interaction */
-#detailView{touch-action:pan-y;overflow-x:hidden;perspective:1400px}
-#detailContent{transform-origin:center center;backface-visibility:hidden;will-change:transform,opacity}
-#detailContent.page-turn-next{animation:verseTurnNext .34s cubic-bezier(.2,.72,.25,1)}
-#detailContent.page-turn-prev{animation:verseTurnPrev .34s cubic-bezier(.2,.72,.25,1)}
+#detailView{touch-action:pan-y;overflow-x:clip;perspective:none}
+#detailContent{transform:none;transform-origin:center center;backface-visibility:visible;will-change:auto}
+#detailContent.page-turn-next{animation:verseFadeNext .22s ease-out}
+#detailContent.page-turn-prev{animation:verseFadePrev .22s ease-out}
 @keyframes verseTurnNext{0%{opacity:.55;transform:translateX(34px) rotateY(-9deg)}100%{opacity:1;transform:translateX(0) rotateY(0)}}
 @keyframes verseTurnPrev{0%{opacity:.55;transform:translateX(-34px) rotateY(9deg)}100%{opacity:1;transform:translateX(0) rotateY(0)}}
 @media(prefers-reduced-motion:reduce){#detailContent.page-turn-next,#detailContent.page-turn-prev{animation:none}}
@@ -242,20 +242,20 @@
  .floating-ask-krishna svg{width:26px;height:26px}
 }
 
-/* v40: pin verse artwork and previous/next controls beneath the app header */
+/* v41: sticky layout fix — remove transformed/scroll-container ancestors */
 #detailView{position:relative}
-#detailView .detail-nav{position:sticky;top:var(--detail-sticky-top,64px);z-index:30;padding:7px 10px;margin:0 -2px 8px;border:1px solid rgba(255,255,255,.46);border-radius:13px;background:rgba(239,242,234,.84);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 4px 16px rgba(24,45,36,.08)}
+#detailView .detail-nav{position:sticky;top:var(--detail-sticky-top,70px);z-index:30;padding:7px 10px;margin:0 -2px 8px;border:1px solid rgba(255,255,255,.46);border-radius:13px;background:rgba(239,242,234,.84);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 4px 16px rgba(24,45,36,.08)}
 #detailView #detailContent{display:flex;flex-direction:column}
-#detailView .detail-art{position:sticky;top:var(--detail-art-top,112px);z-index:20;margin:0 0 8px;border:1px solid rgba(255,255,255,.6);box-shadow:0 5px 18px rgba(25,45,36,.12);background:rgba(230,235,226,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
-#detailView .detail-description-pager{position:sticky;top:calc(var(--detail-art-top,112px) + min(56vw, 220px) + 8px);z-index:19;margin:0 0 12px;padding:7px;border:1px solid rgba(255,255,255,.56);border-radius:15px;background:rgba(239,242,234,.86);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 5px 18px rgba(25,45,36,.1)}
+#detailView .detail-art{position:sticky;top:var(--detail-art-top,132px);z-index:20;margin:0 0 8px;border:1px solid rgba(255,255,255,.6);box-shadow:0 5px 18px rgba(25,45,36,.12);background:rgba(230,235,226,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+#detailView .detail-description-pager{position:sticky;top:calc(var(--detail-art-top,132px) + min(56vw, 220px) + 8px);z-index:19;margin:0 0 12px;padding:7px;border:1px solid rgba(255,255,255,.56);border-radius:15px;background:rgba(239,242,234,.86);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 5px 18px rgba(25,45,36,.1)}
 #detailView .detail-head{padding:5px 0 8px}
 @media(max-width:560px){
  #detailView .detail-nav{top:56px;padding:5px 8px}
- #detailView .detail-art{top:104px;margin-bottom:6px}
- #detailView .detail-description-pager{top:calc(104px + 56.25vw + 6px);padding:5px;gap:5px}
+ #detailView .detail-art{top:110px;margin-bottom:6px}
+ #detailView .detail-description-pager{top:calc(110px + 56.25vw + 6px);padding:5px;gap:5px}
  #detailView .description-step{min-height:48px;padding:6px 7px}
 }
-</style>
+@keyframes verseFadeNext{from{opacity:.65}to{opacity:1}}@keyframes verseFadePrev{from{opacity:.65}to{opacity:1}}</style>
 </head>
 <body>
 <div class="app-shell">
